@@ -1,0 +1,900 @@
+{
+    "ipcMode": null,
+    "requiresCompatibilities": [
+      "EC2"
+  ],
+    "executionRoleArn": "",
+    "containerDefinitions": [
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [
+          {
+            "name": "APPS_MODE",
+            "value": "CELERY_WORKER"
+          },
+          {
+            "name": "C_FORCE_ROOT",
+            "value": "1"
+          },
+          {
+            "name": "CELERY_CONCURRENCY",
+            "value": "6"
+          },
+          {
+            "name": "CELERY_DEBUG_LEVEL",
+            "value": "INFO"
+          },
+          {
+            "name": "CELERY_QUEUES",
+            "value": "low_priority,high_priority"
+          },
+          {
+            "name": "DB_HOST",
+            "value": ""
+          },
+          {
+            "name": "DB_NAME",
+            "value": ""
+          },
+          {
+            "name": "DB_PASS",
+            "value": ""
+          },
+          {
+            "name": "DB_USER",
+            "value": ""
+          },
+          {
+            "name": "DJANGO_SECRET_KEY",
+            "value": "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
+          },
+          {
+            "name": "DJANGO_SETTINGS_MODULE",
+            "value": "config.settings.dockerised_self_hosted"
+          },
+          {
+            "name": "DJANGO_SUPERUSER_PASSWORD",
+            "value": "changeme"
+          },
+          {
+            "name": "DOCKER_LIBRE_OFFICE_HOST",
+            "value": "libre_office"
+          },
+          {
+            "name": "DOCKER_OCR_HOST",
+            "value": "ocr"
+          },
+          {
+            "name": "DOCKER_PDFKIT_HOST",
+            "value": "pdfkit"
+          },
+          {
+            "name": "DOCKER_TEXT_EXTRACTION_HOST",
+            "value": "text_extraction"
+          },
+          {
+            "name": "DOCKER_TORCHSERVE_HOST",
+            "value": "inference"
+          },
+          {
+            "name": "DOCKER_WEB_HOST",
+            "value": "web"
+          },
+          {
+            "name": "HOME",
+            "value": "/opt/affinda"
+          },
+          {
+            "name": "PATH",
+            "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          },
+          {
+            "name": "PRELOAD_SMALL_MODELS",
+            "value": "True"
+          },
+          {
+            "name": "PYTHONUNBUFFERED",
+            "value": "1"
+          },
+          {
+            "name": "REDIS_HOST",
+            "value": "redis"
+          },
+          {
+            "name": "SENTRY_ENVIRONMENT",
+            "value": "self-hosted"
+          },
+          {
+            "name": "USE_ELASTICSEARCH",
+            "value": "0"
+          }
+        ],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [
+          {
+            "readOnly": false,
+            "containerPath": "/opt/shared/",
+            "sourceVolume": "affinda_shared"
+          }
+        ],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": [
+          {
+            "containerName": "web",
+            "condition": "HEALTHY"
+          }
+        ],
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": null,
+        "essential": true,
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "celery_worker",
+        "links": ["ocr:ocr", "libre_office:libre_office", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"]
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [
+          {
+            "hostPort": 5011,
+            "protocol": "tcp",
+            "containerPort": 5011
+          }
+        ],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/ocr:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": null,
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "curl",
+            "--fail",
+            "127.0.0.1:5011"
+          ],
+          "timeout": 3,
+          "interval": 5,
+          "startPeriod": 5
+        },
+        "essential": true,
+        "links": [],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "ocr"
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [
+          {
+            "name": "APPS_MODE",
+            "value": "CELERY_BEAT"
+          },
+          {
+            "name": "C_FORCE_ROOT",
+            "value": "1"
+          },
+          {
+            "name": "CELERY_CONCURRENCY",
+            "value": "1"
+          },
+          {
+            "name": "CELERY_DEBUG_LEVEL",
+            "value": "INFO"
+          },
+          {
+            "name": "CELERY_QUEUES",
+            "value": "low_priority,high_priority"
+          },
+          {
+            "name": "DB_HOST",
+            "value": ""
+          },
+          {
+            "name": "DB_NAME",
+            "value": ""
+          },
+          {
+            "name": "DB_PASS",
+            "value": ""
+          },
+          {
+            "name": "DB_USER",
+            "value": ""
+          },
+          {
+            "name": "DJANGO_SECRET_KEY",
+            "value": "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
+          },
+          {
+            "name": "DJANGO_SETTINGS_MODULE",
+            "value": "config.settings.dockerised_self_hosted"
+          },
+          {
+            "name": "DJANGO_SUPERUSER_PASSWORD",
+            "value": "changeme"
+          },
+          {            "name": "DOCKER_LIBRE_OFFICE_HOST",
+          "value": "libre_office"
+        },
+        {
+          "name": "DOCKER_OCR_HOST",
+          "value": "ocr"
+        },
+        {
+          "name": "DOCKER_PDFKIT_HOST",
+          "value": "pdfkit"
+        },
+        {
+          "name": "DOCKER_TEXT_EXTRACTION_HOST",
+          "value": "text_extraction"
+        },
+        {
+          "name": "DOCKER_TORCHSERVE_HOST",
+          "value": "inference"
+        },
+        {
+          "name": "DOCKER_WEB_HOST",
+          "value": "web"
+        },
+
+          {
+            "name": "HOME",
+            "value": "/opt/affinda"
+          },
+          {
+            "name": "PATH",
+            "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          },
+          {
+            "name": "PRELOAD_SMALL_MODELS",
+            "value": "True"
+          },
+          {
+            "name": "PYTHONUNBUFFERED",
+            "value": "1"
+          },
+          {
+            "name": "REDIS_HOST",
+            "value": "redis"
+          },
+          {
+            "name": "SENTRY_ENVIRONMENT",
+            "value": "self-hosted"
+          },
+          {
+            "name": "USE_ELASTICSEARCH",
+            "value": "0"
+          }
+        ],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [
+          {
+            "readOnly": false,
+            "containerPath": "/opt/shared/",
+            "sourceVolume": "affinda_shared"
+          }
+        ],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": [
+          {
+            "containerName": "web",
+            "condition": "HEALTHY"
+          }
+        ],
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": null,
+        "essential": true,
+        "links": ["ocr:ocr", "libre_office:libre_office", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "celery_beat"
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [
+          {
+            "hostPort": 80,
+            "protocol": "tcp",
+            "containerPort": 80
+          }
+        ],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [
+          {
+            "name": "AFFINDA_CLIENT_API_SPEC_DIR",
+            "value": "/opt/affinda/api_spec"
+          },
+          {
+            "name": "APPS_MODE",
+            "value": "WEB_SELF_HOSTED"
+          },
+          {
+            "name": "DB_HOST",
+            "value": ""
+          },
+          {
+            "name": "DB_NAME",
+            "value": ""
+          },
+          {
+            "name": "DB_PASS",
+            "value": ""
+          },
+          {
+            "name": "DB_USER",
+            "value": ""
+          },
+          {
+            "name": "DISABLE_API_AUTHENTICATION",
+            "value": "True"
+          },
+          {
+            "name": "DJANGO_SECRET_KEY",
+            "value": "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
+          },
+          {
+            "name": "DJANGO_SETTINGS_MODULE",
+            "value": "config.settings.dockerised_self_hosted"
+          },
+          {
+            "name": "DJANGO_SUPERUSER_PASSWORD",
+            "value": "changeme"
+          },
+          {            "name": "DOCKER_LIBRE_OFFICE_HOST",
+          "value": "libre_office"
+        },
+        {
+          "name": "DOCKER_OCR_HOST",
+          "value": "ocr"
+        },
+        {
+          "name": "DOCKER_PDFKIT_HOST",
+          "value": "pdfkit"
+        },
+        {
+          "name": "DOCKER_TEXT_EXTRACTION_HOST",
+          "value": "text_extraction"
+        },
+        {
+          "name": "DOCKER_TORCHSERVE_HOST",
+          "value": "inference"
+        },
+        {
+          "name": "DOCKER_WEB_HOST",
+          "value": "web"
+        },
+          {
+            "name": "HOME",
+            "value": "/opt/affinda"
+          },
+          {
+            "name": "PATH",
+            "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          },
+          {
+            "name": "PYTHONUNBUFFERED",
+            "value": "1"
+          },
+          {
+            "name": "REDIS_HOST",
+            "value": "redis"
+          },
+          {
+            "name": "SENTRY_ENVIRONMENT",
+            "value": "self-hosted"
+          },
+          {
+            "name": "USE_ELASTICSEARCH",
+            "value": "0"
+          }
+        ],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [
+          {
+            "readOnly": false,
+            "containerPath": "/opt/shared/",
+            "sourceVolume": "affinda_shared"
+          }
+        ],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": [
+          {
+            "containerName": "redis",
+            "condition": "HEALTHY"
+          },
+          {
+            "containerName": "ocr",
+            "condition": "HEALTHY"
+          },
+          {
+            "containerName": "text_extraction",
+            "condition": "HEALTHY"
+          },
+          {
+            "containerName": "pdfkit",
+            "condition": "HEALTHY"
+          },
+          {
+            "containerName": "libre_office",
+            "condition": "HEALTHY"
+          }
+        ],
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "curl",
+            "--fail",
+            "http://localhost:80/admin"
+          ],
+          "timeout": 3,
+          "interval": 15,
+          "startPeriod": 60
+        },
+        "essential": true,
+        "links": ["ocr:ocr", "libre_office:libre_office", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "web"
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [
+          {
+            "hostPort": 5010,
+            "protocol": "tcp",
+            "containerPort": 5010
+          }
+        ],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": null,
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "curl",
+            "--fail",
+            "127.0.0.1:5010"
+          ],
+          "timeout": 3,
+          "interval": 5,
+          "startPeriod": 5
+        },
+        "essential": true,
+        "links": [],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "text_extraction"
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [
+          {
+            "hostPort": 5012,
+            "protocol": "tcp",
+            "containerPort": 5012
+          }
+        ],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/pdfkit:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": null,
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "curl",
+            "--fail",
+            "127.0.0.1:5012"
+          ],
+          "timeout": 3,
+          "interval": 5,
+          "startPeriod": 5
+        },
+        "essential": true,
+        "links": [],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "pdfkit"
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [
+          {
+            "hostPort": 5014,
+            "protocol": "tcp",
+            "containerPort": 5014
+          },
+          {
+            "hostPort": 5015,
+            "protocol": "tcp",
+            "containerPort": 5015
+          }
+        ],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [
+          {
+            "name": "SENTRY_DSN_TYPE",
+            "value": "DEV"
+          },
+          {
+            "name": "SENTRY_ENVIRONMENT",
+            "value": "inference_container_selfhosted"
+          },
+          {
+            "name": "SPACY_USE_CUDA",
+            "value": "1"
+          },
+          {
+            "name": "TS_INFERENCE_ADDRESS",
+            "value": "http://0.0.0.0:5014"
+          },
+          {
+            "name": "TS_MANAGEMENT_ADDRESS",
+            "value": "http://0.0.0.0:5015"
+          },
+          {
+            "name": "TS_MODEL_CONFIG",
+            "value": "{\"headshot\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2_multi\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"spacy_en_core_web_sm\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"spacy_en_core_web_trf\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}}}"
+          }
+        ],
+        "resourceRequirements": [
+          {
+            "type": "GPU",
+            "value": "1"
+          }
+        ],
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": 3,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-inference:resumes-latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": null,
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "curl",
+            "--fail",
+            "127.0.0.1:5014/ping"
+          ],
+          "timeout": 2,
+          "interval": 5,
+          "startPeriod": 60
+        },
+        "essential": true,
+        "links": [],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "inference"
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [
+          {
+            "hostPort": 5013,
+            "protocol": "tcp",
+            "containerPort": 5013
+          }
+        ],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/libre_office:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": null,
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "curl",
+            "--fail",
+            "127.0.0.1:5013"
+          ],
+          "timeout": 3,
+          "interval": 5,
+          "startPeriod": 5
+        },
+        "essential": true,
+        "links": [],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "libre_office"
+      },
+      {
+        "dnsSearchDomains": [],
+        "environmentFiles": null,
+        "logConfiguration": null,
+        "entryPoint": [],
+        "portMappings": [
+          {
+            "hostPort": 6379,
+            "protocol": "tcp",
+            "containerPort": 6379
+          }
+        ],
+        "command": [],
+        "linuxParameters": null,
+        "cpu": 0,
+        "environment": [],
+        "resourceRequirements": null,
+        "ulimits": null,
+        "dnsServers": [],
+        "mountPoints": [
+          {
+            "readOnly": false,
+            "containerPath": "/opt/shared/",
+            "sourceVolume": "affinda_shared"
+          }
+        ],
+        "workingDirectory": null,
+        "secrets": null,
+        "dockerSecurityOptions": [],
+        "memory": null,
+        "memoryReservation": null,
+        "volumesFrom": [],
+        "stopTimeout": null,
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:latest",
+        "startTimeout": null,
+        "firelensConfiguration": null,
+        "dependsOn": null,
+        "disableNetworking": null,
+        "interactive": null,
+        "healthCheck": {
+          "retries": 10,
+          "command": [
+            "redis-cli",
+            "ping"
+          ],
+          "timeout": 3,
+          "interval": 5,
+          "startPeriod": 5
+        },
+        "essential": true,
+        "links": [],
+        "hostname": null,
+        "extraHosts": null,
+        "pseudoTerminal": null,
+        "user": null,
+        "readonlyRootFilesystem": null,
+        "dockerLabels": null,
+        "systemControls": [],
+        "privileged": null,
+        "name": "redis"
+      }
+    ],
+    "placementConstraints": [],
+    "memory": "30000",
+    "family": "affinda",
+    "pidMode": null,
+    "networkMode": "bridge",
+    "runtimePlatform": {
+      "operatingSystemFamily": "LINUX",
+      "cpuArchitecture": "X86_64"
+    },
+    "cpu": "8192",
+    "inferenceAccelerators": null,
+    "proxyConfiguration": null,
+    "volumes": [
+      {
+        "fsxWindowsFileServerVolumeConfiguration": null,
+        "efsVolumeConfiguration": null,
+        "name": "pgdata",
+        "host": null,
+        "dockerVolumeConfiguration": {
+          "autoprovision": true,
+          "labels": null,
+          "scope": "shared",
+          "driver": "local",
+          "driverOpts": null
+        }
+      },
+      {
+        "fsxWindowsFileServerVolumeConfiguration": null,
+        "efsVolumeConfiguration": null,
+        "name": "affinda_shared",
+        "host": null,
+        "dockerVolumeConfiguration": {
+          "autoprovision": true,
+          "labels": null,
+          "scope": "shared",
+          "driver": "local",
+          "driverOpts": null
+        }
+      }
+    ]
+  }

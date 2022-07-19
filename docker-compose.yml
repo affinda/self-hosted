@@ -1,0 +1,303 @@
+version: "3.8"
+
+volumes: # Note these will be prefixed by affinda_ when created by docker compose
+  pgdata:
+  affinda_shared:
+
+services:
+  # Local dev containers
+  text_extraction:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:latest
+    ports:
+      - "${DOCKER_TEXT_EXTRACTION_PORT:-5010}:${DOCKER_TEXT_EXTRACTION_PORT:-5010}"
+    environment:
+      DOCKER_TEXT_EXTRACTION_PORT: "${DOCKER_TEXT_EXTRACTION_PORT:-5010}"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+
+  ocr:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/ocr:latest
+    build:
+      dockerfile: ocr.Dockerfile
+      context: docker/ocr
+      target: ocr
+    ports:
+      - "${DOCKER_OCR_PORT:-5011}:${DOCKER_OCR_PORT:-5011}"
+    environment:
+      DOCKER_OCR_PORT: "${DOCKER_OCR_PORT:-5011}"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+
+
+  pdfkit:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/pdfkit:latest
+    build:
+      dockerfile: pdfkit.Dockerfile
+      context: docker/pdfkit
+      target: pdfkit
+    ports:
+      - "${DOCKER_PDFKIT_PORT:-5012}:${DOCKER_PDFKIT_PORT:-5012}"
+    environment:
+      DOCKER_PDFKIT_PORT: "${DOCKER_PDFKIT_PORT:-5012}"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+
+
+  libre_office:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/libre_office:latest
+    build:
+      dockerfile: libre_office.Dockerfile
+      context: docker/libre_office
+      target: libre_office
+    ports:
+      - "${DOCKER_LIBRE_OFFICE_PORT:-5013}:${DOCKER_LIBRE_OFFICE_PORT:-5013}"
+    environment:
+      DOCKER_LIBRE_OFFICE_PORT: "${DOCKER_LIBRE_OFFICE_PORT:-5013}"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+
+
+  inference:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-inference:resumes-latest
+    ports:
+      - "${DOCKER_TORCHSERVE_INFERENCE_PORT:-5014}:${DOCKER_TORCHSERVE_INFERENCE_PORT:-5014}"
+      - "${DOCKER_TORCHSERVE_MANAGEMENT_PORT:-5015}:${DOCKER_TORCHSERVE_MANAGEMENT_PORT:-5015}"
+    environment:
+      TS_INFERENCE_ADDRESS: "http://0.0.0.0:${DOCKER_TORCHSERVE_INFERENCE_PORT:-5014}"
+      TS_MANAGEMENT_ADDRESS: "http://0.0.0.0:${DOCKER_TORCHSERVE_MANAGEMENT_PORT:-5015}"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      SPACY_USE_CUDA: "1"
+      TS_MODEL_CONFIG: >-  # Won't append newlines or add newlines in string
+        {
+        "headshot":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resumes_layoutlmv2":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resumes_layoutlmv2_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "spacy_en_core_web_sm":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "spacy_en_core_web_trf":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
+        }
+    healthcheck:
+      test: "curl --fail http://0.0.0.0:${DOCKER_TORCHSERVE_INFERENCE_PORT:-5014}/ping || exit 1"
+      interval: 5s
+      timeout: 2s
+      start_period: 20s
+      retries: 20
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu, utility, compute ]
+
+  db:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-db:latest
+    build:
+      dockerfile: db.Dockerfile
+      context: docker/db
+    restart: always
+    user: postgres
+    environment:
+      POSTGRES_DB: affinda
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_PORT: "${DOCKER_DB_PORT:-5433}" # note different than default, to avoid clashing with a local postgres instance
+    command:
+      - "-p 5433"
+    healthcheck:
+      test: "pg_isready -q -d affinda -U postgres --port ${DOCKER_DB_PORT:-5433}"
+      interval: 2s
+    ports:
+      - "${DOCKER_DB_PORT:-5433}:${DOCKER_DB_PORT:-5433}" # note different than default 5432, to avoid clashing with a local postgres instance if present
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+  redis:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:latest
+    build:
+      dockerfile: redis.Dockerfile
+      context: docker/redis
+    command: "--port ${DOCKER_REDIS_PORT:-6380}" # note different than default, to avoid clashing with a local redis instance
+    healthcheck:
+      test: "redis-cli -p ${DOCKER_REDIS_PORT:-6380} ping"
+      interval: 2s
+    ports:
+      - "${DOCKER_REDIS_PORT:-6380}:${DOCKER_REDIS_PORT:-6380}" # note different than normal, to avoid clashing with a local redis instance
+    volumes:
+      - affinda_shared:/opt/shared/
+
+  # APPS Services
+  web:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest
+    restart: always
+    ports:
+      - "${DOCKER_WEB_PORT:-80}:80"
+    environment:
+      APPS_MODE: "WEB_SELF_HOSTED"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      AFFINDA_CLIENT_API_SPEC_DIR: "/opt/affinda/api_spec"
+      DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
+      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_self_hosted"
+      DJANGO_SUPERUSER_PASSWORD: "changeme"
+      API_ROOT_URL: "http://api.localhost:80"
+      HOME: "/opt/affinda"
+      PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      PYTHONUNBUFFERED: "1"
+      SENTRY_ENVIRONMENT: "self-hosted"
+      DB_NAME: "affinda"
+      DB_USER: "postgres"
+      DB_PASS: "password"
+      DB_HOST: "db"
+      # DOCKER specific ENV VARS defaults are in config.settings.base
+      DOCKER_TEXT_EXTRACTION_PORT: "${DOCKER_TEXT_EXTRACTION_PORT:-5010}"
+      DOCKER_TEXT_EXTRACTION_HOST: text_extraction
+      DOCKER_OCR_PORT: "${DOCKER_OCR_PORT:-5011}"
+      DOCKER_OCR_HOST: ocr
+      DOCKER_PDFKIT_PORT: "${DOCKER_PDFKIT_PORT:-5012}"
+      DOCKER_PDFKIT_HOST: pdfkit
+      DOCKER_LIBRE_OFFICE_PORT: "${DOCKER_LIBRE_OFFICE_PORT:-5013}"
+      DOCKER_LIBRE_OFFICE_HOST: libre_office
+      DOCKER_TORCHSERVE_HOST: inference
+      DOCKER_TORCHSERVE_INFERENCE_PORT: "${DOCKER_TORCHSERVE_INFERENCE_PORT:-5014}"
+      DOCKER_TORCHSERVE_MANAGEMENT_PORT: "${DOCKER_TORCHSERVE_MANAGEMENT_PORT:-5015}"
+      DOCKER_WEB_HOST: web
+      DOCKER_DB_PORT: "${DOCKER_DB_PORT:-5433}"
+      DOCKER_REDIS_PORT: "${DOCKER_REDIS_PORT:-6380}"
+      ELASTICSEARCH_HOST: "elasticsearch:9200"
+      USE_ELASTICSEARCH: "0"
+    healthcheck:
+      test: "curl --fail http://localhost:80/admin || exit 1"
+      interval: 5s
+      timeout: 3s
+      start_period: 240s
+      retries: 20
+
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - affinda_shared:/opt/shared/
+
+  celery_worker:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest
+    environment:
+      APPS_MODE: "CELERY_WORKER"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
+      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_self_hosted"
+      DJANGO_SUPERUSER_PASSWORD: "changeme"
+      HOME: "/opt/affinda"
+      PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      PYTHONUNBUFFERED: "1"
+      SENTRY_ENVIRONMENT: "self-hosted"
+      # GPU specific params
+      PRELOAD_SMALL_MODELS: "True"
+      C_FORCE_ROOT: "1"
+      CELERY_QUEUES: "low_priority,high_priority"
+      CELERY_CONCURRENCY: "${DOCKER_LOW_PRIORITY_CELERY_CONCURRENCY:-4}"
+      CELERY_DEBUG_LEVEL: "INFO"
+      DB_NAME: "affinda"
+      DB_USER: "postgres"
+      DB_PASS: "password"
+      DB_HOST: "db"
+      # DOCKER specific ENV VARS defaults are in config.settings.base
+      DOCKER_TEXT_EXTRACTION_PORT: "${DOCKER_TEXT_EXTRACTION_PORT:-5010}"
+      DOCKER_TEXT_EXTRACTION_HOST: text_extraction
+      DOCKER_OCR_PORT: "${DOCKER_OCR_PORT:-5011}"
+      DOCKER_OCR_HOST: ocr
+      DOCKER_PDFKIT_PORT: "${DOCKER_PDFKIT_PORT:-5012}"
+      DOCKER_PDFKIT_HOST: pdfkit
+      DOCKER_LIBRE_OFFICE_PORT: "${DOCKER_LIBRE_OFFICE_PORT:-5013}"
+      DOCKER_LIBRE_OFFICE_HOST: libre_office
+      DOCKER_TORCHSERVE_HOST: inference
+      DOCKER_TORCHSERVE_INFERENCE_PORT: "${DOCKER_TORCHSERVE_INFERENCE_PORT:-5014}"
+      DOCKER_TORCHSERVE_MANAGEMENT_PORT: "${DOCKER_TORCHSERVE_MANAGEMENT_PORT:-5015}"
+      DOCKER_WEB_HOST: web
+      DOCKER_DB_PORT: "${DOCKER_DB_PORT:-5433}"
+      DOCKER_REDIS_PORT: "${DOCKER_REDIS_PORT:-6380}"
+      ELASTICSEARCH_HOST: "elasticsearch:9200"
+      USE_ELASTICSEARCH: "0"
+    deploy:
+      replicas: 2
+
+    volumes:
+      - affinda_shared:/opt/shared/
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_healthy
+      ocr:
+        condition: service_healthy
+      text_extraction:
+        condition: service_healthy
+      pdfkit:
+        condition: service_healthy
+      libre_office:
+        condition: service_healthy
+      inference:
+        condition: service_healthy
+
+  celery_beat:
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest
+    environment:
+      APPS_MODE: "CELERY_BEAT"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
+      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_self_hosted"
+      DJANGO_SUPERUSER_PASSWORD: "changeme"
+      HOME: "/opt/affinda"
+      PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      PYTHONUNBUFFERED: "1"
+      # GPU specific params
+      PRELOAD_SMALL_MODELS: "False"
+      C_FORCE_ROOT: "1"
+      CELERY_QUEUES: "low_priority,high_priority"
+      CELERY_DEBUG_LEVEL: "INFO"
+      CELERY_CONCURRENCY: "1"
+      SENTRY_ENVIRONMENT: "self-hosted"
+      DB_NAME: "affinda"
+      DB_USER: "postgres"
+      DB_PASS: "password"
+      DB_HOST: "db"
+      # DOCKER specific ENV VARS defined in config.settings.dockerised, defaults are set in there too
+      # DOCKER specific ENV VARS defaults are in config.settings.base
+      DOCKER_TEXT_EXTRACTION_PORT: "${DOCKER_TEXT_EXTRACTION_PORT:-5010}"
+      DOCKER_TEXT_EXTRACTION_HOST: text_extraction
+      DOCKER_OCR_PORT: "${DOCKER_OCR_PORT:-5011}"
+      DOCKER_OCR_HOST: ocr
+      DOCKER_PDFKIT_PORT: "${DOCKER_PDFKIT_PORT:-5012}"
+      DOCKER_PDFKIT_HOST: pdfkit
+      DOCKER_LIBRE_OFFICE_PORT: "${DOCKER_LIBRE_OFFICE_PORT:-5013}"
+      DOCKER_LIBRE_OFFICE_HOST: libre_office
+      DOCKER_TORCHSERVE_HOST: inference
+      DOCKER_TORCHSERVE_INFERENCE_PORT: "${DOCKER_TORCHSERVE_INFERENCE_PORT:-5014}"
+      DOCKER_TORCHSERVE_MANAGEMENT_PORT: "${DOCKER_TORCHSERVE_MANAGEMENT_PORT:-5015}"
+      DOCKER_WEB_HOST: web
+      DOCKER_DB_PORT: "${DOCKER_DB_PORT:-5433}"
+      DOCKER_REDIS_PORT: "${DOCKER_REDIS_PORT:-6380}"
+      ELASTICSEARCH_HOST: "elasticsearch:9200"
+      USE_ELASTICSEARCH: "0"
+
+    deploy:
+      replicas: 1
+
+    volumes:
+      - affinda_shared:/opt/shared/
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_healthy
+      ocr:
+        condition: service_healthy
+      text_extraction:
+        condition: service_healthy
+      pdfkit:
+        condition: service_healthy
+      libre_office:
+        condition: service_healthy
+      inference:
+        condition: service_healthy
