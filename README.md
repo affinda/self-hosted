@@ -81,7 +81,8 @@ We recommend using https://djecrety.ir/ to create a new key.
 
 ## Usage
 
-The initial login credentials are: `admin`, password: `changeme`.  Once logged in, change the password.
+The initial login credentials are: `admin`, password: `changeme`.  Once logged in, change the password. This initial 
+password can also be set with the environment variable `DJANGO_SUPERUSER_PASSWORD`.
 
 Detailed documentation regarding the API can be found at https://api.affinda.com/docs or on your local instance at `/docs`
 
