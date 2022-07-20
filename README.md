@@ -33,11 +33,13 @@ Additionally, the IAM role for this instance will need to have ECR permissions a
 ```
 aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com
 ```
-3. Add the [docker compose](docker-compose.yml) file to your the home directory on the server.  This could also be
+4. It is good practice to update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`.
+We recommend using https://djecrety.ir/ to create a new key.
+5. Add the [docker compose](docker-compose.yml) file to your the home directory on the server.  This could also be
 achieved by cloning this repostory with `git clone git@github.com:affinda/self-hosted.git`
-4. Run `docker compose pull` and `docker compose up` to pull the containers and start the service. 
-5. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
-6. You should now be able to access the admin login page at the IP address of the service.  
+6. Run `docker compose pull` and `docker compose up` to pull the containers and start the service. 
+7. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
+8. You should now be able to access the admin login page at the IP address of the service.  
 
 ### Elastic Container Service (ECS)
 
@@ -72,6 +74,8 @@ you should create a new postgresql database through RDS, or wherever you normall
 3. Make a copy of [ECS-task-definition.json](ECS-task-definition.json) and update the database environment variables
 based on the database from step (2) `DB_HOST` `DB_PASS` `DB_USER` `DB_NAME`.  Note these environment variables appear
 three times each, as they are used by multiple containers in the service. Also choose an appropriate `executionRoleArn`.
+4. It is good practice to update the `DJANGO_SECRET_KEY` environment variable wherever it appears.
+We recommend using https://djecrety.ir/ to create a new key.
 4. Create a task definition using this JSON either with ecs-cli, or through a browser.
 5. Create a new service on your cluster using this definition. You may want to route traffic through a load balancer.
 
