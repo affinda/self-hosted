@@ -14,7 +14,7 @@ Some instructions are AWS-specific, however running on other cloud platforms is 
 
 You will need access to the relevant Affinda repositories to run this code.  Please contact sales@affinda.com.
 
-## Configuration
+## Installation
 
 There are two supported approaches to configuring the service: EC2 instance running docker compose, or Elastic Container
 Service (ECS).  For organizations running a single instance, we recommend docker compose.  For organizations running
@@ -25,7 +25,7 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 1. Launch a new G4dn.2xlarge instance using [ami-03d86650f7383f67c](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-03d86650f7383f67c). 
 The configuration is optimised for this instance type, so if we recommend running additional instances if you require
 higher throughput.
-   1. If you are not running in the region of the ami (ap-southeast-2), you will need to copy the AMI to your region.
+   1. If you are not running in the region of the AMI (ap-southeast-2), you will need to copy the AMI to your region.
       (actions -> copy AMI)
    2. If you are not using AWS, then launch an instance with NVIDIA GPU drivers and docker engine/compose installed.
 2. Authenticate docker with AWS. Note that the affinda repositories are private. Contact sales@affinda.com for access.
@@ -36,13 +36,65 @@ aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS
 3. Add the [docker compose](docker-compose.yml) file to your the home directory on the server.  This could also be
 achieved by cloning this repostory with `git clone git@github.com:affinda/self-hosted.git`
 4. Run `docker compose pull` and `docker compose up` to pull the containers and start the service. 
-5. Note that the first time it runs it will take
-approximately 5 minutes to complete initial database migrations.
-6. You should now be able to access the admin login page at the IP address of the service.  The initial login 
-credentials are: `admin`, password: `changeme`  You know what to do.
+5. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
+6. You should now be able to access the admin login page at the IP address of the service.  
 
 ### Elastic Container Service (ECS)
 
-Task definition can be found at [ECS-task-definition.json](ECS-task-definition.json)
+1. Create a cluster with G4dn.2xlarge instances using [ami-03d86650f7383f67c](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-03d86650f7383f67c). 
+This can be done either through a browser, or using ecs-cli:
+   1. If using a browser, create a new EC2 Linux + Networking cluster.  You will not be able to change specify the AMI
+at this step, the default amazon AMI will be automatically selected.  After the cluster has been created, go to 
+cloud formation, select the stack relating to the cluster, update using the current template, and then change
+the EcsAmiId to [ami-03d86650f7383f67c](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-03d86650f7383f67c). 
+You may then want to terminate any instances that were launched using the default amazon AMI.
+   2. If using ecs-cli ([installation instructions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html)),
+you need to:
+      1. Run `ecs-cli configure --region my-region --cluster my-new-cluster-name`
+      2. Run the following to create a cluster in your VPC with appropriate subnets, IAM roles, etc.
+```bash
+ecs-cli up \
+      --keypair optional-if-you-want-ssh-access \
+      --launch-type EC2 \
+      --size 1 \
+      --instance-type g4dn.2xlarge \
+      --instance-role your-iam-role \
+      --vpc your-vpc-id \
+      --subnets your-comma-separated-subnet-ids \
+      --security-group your-security-group-id \
+      --image-id ami-03d86650f7383f67c \
+      --region your-aws-region
+```
+2. When running in a cluster, it is preferable to have an external database for all the cluster instances to 
+share.  It is possible to simply include a database within each instance, however this will cause problems if you 
+want to track usage across accounts connecting to the cluster, or if you are using our Search and Match platform.  So,
+you should create a new postgresql database through RDS, or wherever you normally create databases.
+3. Make a copy of [ECS-task-definition.json](ECS-task-definition.json) and update the database environment variables
+based on the database from step (2) `DB_HOST` `DB_PASS` `DB_USER` `DB_NAME`.  Note these environment variables appear
+three times each, as they are used by multiple containers in the service. Also choose an appropriate `executionRoleArn`.
+4. Create a task definition using this JSON either with ecs-cli, or through a browser.
+5. Create a new service on your cluster using this definition. You may want to route traffic through a load balancer.
 
-Further instructions to come.
+## Usage
+
+The initial login credentials are: `admin`, password: `changeme`.  Once logged in, change the password.
+
+Detailed documentation regarding the API can be found at https://api.affinda.com/docs or on your local instance at `/docs`
+
+API keys can be accessed at `/admin/users/user/`
+
+We recommend using our client libraries to call the API. For example, our python client library can be installed
+with `pip install affinda`, and called as follows:
+
+```python
+from affinda import AffindaAPI, TokenCredential 
+
+credential = TokenCredential(token="your_token") 
+client = AffindaAPI(credential=credential, base_url="http://your_ip/api/v1") 
+
+with open("path_to_resume", "rb") as f: 
+    resume = client.create_resume(file=f)
+```
+
+Our other client libraries can be found at https://api.affinda.com/docs.
+

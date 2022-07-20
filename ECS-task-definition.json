@@ -407,7 +407,7 @@
           },
           {
             "name": "DISABLE_API_AUTHENTICATION",
-            "value": "True"
+            "value": "False"
           },
           {
             "name": "DJANGO_SECRET_KEY",
@@ -522,7 +522,7 @@
           ],
           "timeout": 3,
           "interval": 15,
-          "startPeriod": 60
+          "startPeriod": 240
         },
         "essential": true,
         "links": ["ocr:ocr", "libre_office:libre_office", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"],
