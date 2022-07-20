@@ -44,15 +44,15 @@ achieved by cloning this repostory with `git clone git@github.com:affinda/self-h
 ### Elastic Container Service (ECS)
 
 1. Create a cluster with G4dn.2xlarge instances using [ami-03d86650f7383f67c](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-03d86650f7383f67c). 
-This can be done either through a browser, or using ecs-cli:
-   1. If using a browser, create a new EC2 Linux + Networking cluster.  You will not be able to change specify the AMI
+If you are not running in the region of the AMI (ap-southeast-2), you will need to copy the AMI to your region (actions -> copy AMI). Cluster creation can be done either through a browser, or using ecs-cli:
+   1. If using a browser, create a new EC2 Linux + Networking cluster.  You will not be able to specify the AMI
 at this step, the default amazon AMI will be automatically selected.  After the cluster has been created, go to 
 cloud formation, select the stack relating to the cluster, update using the current template, and then change
 the EcsAmiId to [ami-03d86650f7383f67c](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-03d86650f7383f67c). 
 You may then want to terminate any instances that were launched using the default amazon AMI.
    2. If using ecs-cli ([installation instructions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html)),
 you need to:
-      1. Run `ecs-cli configure --region my-region --cluster my-new-cluster-name`
+      1. Run `ecs-cli configure --region your-region --cluster your-new-cluster-name`
       2. Run the following to create a cluster in your VPC with appropriate subnets, IAM roles, etc.
 ```bash
 ecs-cli up \
