@@ -65,7 +65,7 @@
           },
           {
             "name": "DOCKER_LIBRE_OFFICE_HOST",
-            "value": "libre_office"
+            "value": "libreoffice"
           },
           {
             "name": "DOCKER_OCR_HOST",
@@ -155,7 +155,7 @@
         "systemControls": [],
         "privileged": null,
         "name": "celery_worker",
-        "links": ["ocr:ocr", "libre_office:libre_office", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"]
+        "links": ["ocr:ocr", "libreoffice:libreoffice", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"]
       },
       {
         "dnsSearchDomains": [],
@@ -272,7 +272,7 @@
             "value": "changeme"
           },
           {            "name": "DOCKER_LIBRE_OFFICE_HOST",
-          "value": "libre_office"
+          "value": "libreoffice"
         },
         {
           "name": "DOCKER_OCR_HOST",
@@ -354,7 +354,7 @@
         "interactive": null,
         "healthCheck": null,
         "essential": true,
-        "links": ["ocr:ocr", "libre_office:libre_office", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"],
+        "links": ["ocr:ocr", "libreoffice:libreoffice", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"],
         "hostname": null,
         "extraHosts": null,
         "pseudoTerminal": null,
@@ -422,7 +422,7 @@
             "value": "changeme"
           },
           {            "name": "DOCKER_LIBRE_OFFICE_HOST",
-          "value": "libre_office"
+          "value": "libreoffice"
         },
         {
           "name": "DOCKER_OCR_HOST",
@@ -507,7 +507,7 @@
             "condition": "HEALTHY"
           },
           {
-            "containerName": "libre_office",
+            "containerName": "libreoffice",
             "condition": "HEALTHY"
           }
         ],
@@ -525,7 +525,7 @@
           "startPeriod": 240
         },
         "essential": true,
-        "links": ["ocr:ocr", "libre_office:libre_office", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"],
+        "links": ["ocr:ocr", "libreoffice:libreoffice", "pdfkit:pdfkit", "redis:redis", "text_extraction:text_extraction", "inference:inference"],
         "hostname": null,
         "extraHosts": null,
         "pseudoTerminal": null,
@@ -785,7 +785,7 @@
         },
         "essential": true,
         "links": [],
-        "hostname": null,
+        "hostname": "libreoffice",
         "extraHosts": null,
         "pseudoTerminal": null,
         "user": null,
@@ -793,7 +793,7 @@
         "dockerLabels": null,
         "systemControls": [],
         "privileged": null,
-        "name": "libre_office"
+        "name": "libreoffice"
       },
       {
         "dnsSearchDomains": [],
