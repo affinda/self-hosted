@@ -28,6 +28,7 @@ higher throughput.
    1. If you are not running in the region of the AMI (ap-southeast-2), you will need to copy the AMI to your region.
       (actions -> copy AMI)
    2. If you are not using AWS, then launch an instance with NVIDIA GPU drivers and docker engine/compose installed.
+   3. Install `docker` and `docker compose` manually or by running the `./install_os_dependencies.sh` script in this repo
 2. Authenticate docker with AWS. Note that the affinda repositories are private. Contact sales@affinda.com for access.
 Additionally, the IAM role for this instance will need to have ECR permissions assigned.
 ```
