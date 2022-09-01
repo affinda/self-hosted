@@ -43,8 +43,16 @@ write_to_bashrc() {
 }
 
 info_message "Installing required APT packages"
+sudo apt-get update
+sudo apt-get install -y curl wget
+curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | \
+  sudo apt-key add -
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidia-container-runtime.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-container-runtime.list
+
 sudo apt update
-sudo apt-get install -y unzip
+sudo apt-get install -y unzip nvidia-container-runtime
 
 info_message "Installing / updating docker"
 if command_exists docker; then
