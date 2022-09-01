@@ -16,10 +16,6 @@ services:
 
   ocr:
     image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/ocr:latest
-    build:
-      dockerfile: ocr.Dockerfile
-      context: docker/ocr
-      target: ocr
     ports:
       - "${DOCKER_OCR_PORT:-5011}:${DOCKER_OCR_PORT:-5011}"
     environment:
@@ -29,10 +25,6 @@ services:
 
   pdfkit:
     image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/pdfkit:latest
-    build:
-      dockerfile: pdfkit.Dockerfile
-      context: docker/pdfkit
-      target: pdfkit
     ports:
       - "${DOCKER_PDFKIT_PORT:-5012}:${DOCKER_PDFKIT_PORT:-5012}"
     environment:
@@ -43,10 +35,6 @@ services:
   libre_office:
     image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/libre_office:latest
     hostname: libreoffice
-    build:
-      dockerfile: libre_office.Dockerfile
-      context: docker/libre_office
-      target: libre_office
     ports:
       - "${DOCKER_LIBRE_OFFICE_PORT:-5013}:${DOCKER_LIBRE_OFFICE_PORT:-5013}"
     environment:
@@ -88,9 +76,6 @@ services:
 
   db:
     image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-db:latest
-    build:
-      dockerfile: db.Dockerfile
-      context: docker/db
     restart: always
     user: postgres
     environment:
@@ -111,9 +96,6 @@ services:
 
   redis:
     image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:latest
-    build:
-      dockerfile: redis.Dockerfile
-      context: docker/redis
     command: "--port ${DOCKER_REDIS_PORT:-6380}" # note different than default, to avoid clashing with a local redis instance
     healthcheck:
       test: "redis-cli -p ${DOCKER_REDIS_PORT:-6380} ping"
