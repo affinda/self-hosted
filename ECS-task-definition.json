@@ -109,7 +109,7 @@
           },
           {
             "name": "SENTRY_ENVIRONMENT",
-            "value": "self-hosted"
+            "value": "selfhosted"
           },
           {
             "name": "USE_ELASTICSEARCH",
@@ -133,7 +133,7 @@
         "memoryReservation": null,
         "volumesFrom": [],
         "stopTimeout": null,
-        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest",
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest",
         "startTimeout": null,
         "firelensConfiguration": null,
         "dependsOn": [
@@ -317,7 +317,7 @@
           },
           {
             "name": "SENTRY_ENVIRONMENT",
-            "value": "self-hosted"
+            "value": "selfhosted"
           },
           {
             "name": "USE_ELASTICSEARCH",
@@ -341,7 +341,7 @@
         "memoryReservation": null,
         "volumesFrom": [],
         "stopTimeout": null,
-        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest",
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest",
         "startTimeout": null,
         "firelensConfiguration": null,
         "dependsOn": [
@@ -387,7 +387,7 @@
           },
           {
             "name": "APPS_MODE",
-            "value": "WEB_SELF_HOSTED"
+            "value": "WEB_SELFHOSTED"
           },
           {
             "name": "DB_HOST",
@@ -462,7 +462,7 @@
           },
           {
             "name": "SENTRY_ENVIRONMENT",
-            "value": "self-hosted"
+            "value": "selfhosted"
           },
           {
             "name": "USE_ELASTICSEARCH",
@@ -486,7 +486,7 @@
         "memoryReservation": null,
         "volumesFrom": [],
         "stopTimeout": null,
-        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest",
+        "image": "332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest",
         "startTimeout": null,
         "firelensConfiguration": null,
         "dependsOn": [

@@ -125,22 +125,22 @@ services:
 
   # APPS Services
   web:
-    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest
     restart: always
     ports:
       - "${DOCKER_WEB_PORT:-80}:80"
     environment:
-      APPS_MODE: "WEB_SELF_HOSTED"
+      APPS_MODE: "WEB_SELFHOSTED"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       AFFINDA_CLIENT_API_SPEC_DIR: "/opt/affinda/api_spec"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
-      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_self_hosted"
+      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_selfhosted"
       DJANGO_SUPERUSER_PASSWORD: "changeme"
       API_ROOT_URL: "http://api.localhost:80"
       HOME: "/opt/affinda"
       PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       PYTHONUNBUFFERED: "1"
-      SENTRY_ENVIRONMENT: "self-hosted"
+      SENTRY_ENVIRONMENT: "selfhosted"
       DB_NAME: "affinda"
       DB_USER: "postgres"
       DB_PASS: "password"
@@ -178,17 +178,17 @@ services:
       - affinda_shared:/opt/shared/
 
   celery_worker:
-    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest
     environment:
       APPS_MODE: "CELERY_WORKER"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
-      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_self_hosted"
+      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_selfhosted"
       DJANGO_SUPERUSER_PASSWORD: "changeme"
       HOME: "/opt/affinda"
       PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       PYTHONUNBUFFERED: "1"
-      SENTRY_ENVIRONMENT: "self-hosted"
+      SENTRY_ENVIRONMENT: "selfhosted"
       # GPU specific params
       PRELOAD_SMALL_MODELS: "True"
       C_FORCE_ROOT: "1"
@@ -240,12 +240,12 @@ services:
         condition: service_healthy
 
   celery_beat:
-    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-apps:latest
+    image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest
     environment:
       APPS_MODE: "CELERY_BEAT"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
-      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_self_hosted"
+      DJANGO_SETTINGS_MODULE: "config.settings.dockerised_selfhosted"
       DJANGO_SUPERUSER_PASSWORD: "changeme"
       HOME: "/opt/affinda"
       PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -256,7 +256,7 @@ services:
       CELERY_QUEUES: "low_priority,high_priority"
       CELERY_DEBUG_LEVEL: "INFO"
       CELERY_CONCURRENCY: "1"
-      SENTRY_ENVIRONMENT: "self-hosted"
+      SENTRY_ENVIRONMENT: "selfhosted"
       DB_NAME: "affinda"
       DB_USER: "postgres"
       DB_PASS: "password"
