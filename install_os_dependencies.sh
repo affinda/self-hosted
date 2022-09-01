@@ -43,7 +43,8 @@ write_to_bashrc() {
 }
 
 info_message "Installing required APT packages"
-sudo apt-get install unzip
+sudo apt update
+sudo apt-get install -y unzip
 
 info_message "Installing / updating docker"
 if command_exists docker; then
