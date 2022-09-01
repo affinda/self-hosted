@@ -31,7 +31,7 @@ higher throughput.
    3. Install `docker` and `docker compose` manually or by running the `./install_os_dependencies.sh` script in this repo
 2. Authenticate docker with AWS. Note that the affinda repositories are private. Contact sales@affinda.com for access.
 Additionally, the IAM role for this instance will need to have ECR permissions assigned.
-```
+```shell
 aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com
 ```
 4. It is good practice to update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`.

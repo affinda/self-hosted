@@ -69,6 +69,20 @@ if [[ $(echo $INSTALLED_DOCKER_COMPOSE | grep "$REQUIRED_DOCKER_COMPOSE") == "" 
   mkdir -p "$HOME/.docker/cli-plugins" &&
     curl -SL https://api.github.com/repos/docker/compose/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep -wo https.*docker-compose-$(uname | awk '{print tolower($0)}')-$(uname -m)$ | wget -i - -O "$HOME/.docker/cli-plugins/docker-compose" &&
     chmod +x "$HOME/.docker/cli-plugins/docker-compose"
+
+  success_message "Docker compose installed"
 else
   success_message "Docker compose version '$INSTALLED_DOCKER_COMPOSE' is up to date with requirement '$REQUIRED_DOCKER_COMPOSE'"
 fi
+
+
+info_message "Installing AWS CLI if required"
+if command_exists aws; then
+  success_message "AWS CLI already installed"
+else
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip -o awscliv2.zip && sudo ./aws/install && rm -f "awscliv2.zip"
+  success_message "AWS CLI installed"
+fi
+
+
+success_message "Installation of self-hosted os dependencies complete!"
