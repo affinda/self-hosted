@@ -42,6 +42,9 @@ write_to_bashrc() {
   grep -qF -- "$1" "$HOME/.bashrc" || echo "$1" >>"$HOME/.bashrc"
 }
 
+info_message "Installing required APT packages"
+sudo apt-get install unzip
+
 info_message "Installing / updating docker"
 if command_exists docker; then
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io
