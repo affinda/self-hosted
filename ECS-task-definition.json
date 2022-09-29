@@ -57,34 +57,34 @@
           },
           {
             "name": "DJANGO_SETTINGS_MODULE",
-            "value": "config.settings.dockerised_self_hosted"
+            "value": "config.settings.selfhosted"
           },
           {
             "name": "DJANGO_SUPERUSER_PASSWORD",
             "value": "changeme"
           },
           {
-            "name": "DOCKER_LIBRE_OFFICE_HOST",
+            "name": "LIBRE_OFFICE_HOST",
             "value": "libreoffice"
           },
           {
-            "name": "DOCKER_OCR_HOST",
+            "name": "OCR_HOST",
             "value": "ocr"
           },
           {
-            "name": "DOCKER_PDFKIT_HOST",
+            "name": "PDFKIT_HOST",
             "value": "pdfkit"
           },
           {
-            "name": "DOCKER_TEXT_EXTRACTION_HOST",
+            "name": "TEXT_EXTRACTION_HOST",
             "value": "text_extraction"
           },
           {
-            "name": "DOCKER_TORCHSERVE_HOST",
+            "name": "TORCHSERVE_HOST",
             "value": "inference"
           },
           {
-            "name": "DOCKER_WEB_HOST",
+            "name": "WEB_HOST",
             "value": "web"
           },
           {
@@ -265,33 +265,33 @@
           },
           {
             "name": "DJANGO_SETTINGS_MODULE",
-            "value": "config.settings.dockerised_self_hosted"
+            "value": "config.settings.selfhosted"
           },
           {
             "name": "DJANGO_SUPERUSER_PASSWORD",
             "value": "changeme"
           },
-          {            "name": "DOCKER_LIBRE_OFFICE_HOST",
+          {            "name": "LIBRE_OFFICE_HOST",
           "value": "libreoffice"
         },
         {
-          "name": "DOCKER_OCR_HOST",
+          "name": "OCR_HOST",
           "value": "ocr"
         },
         {
-          "name": "DOCKER_PDFKIT_HOST",
+          "name": "PDFKIT_HOST",
           "value": "pdfkit"
         },
         {
-          "name": "DOCKER_TEXT_EXTRACTION_HOST",
+          "name": "TEXT_EXTRACTION_HOST",
           "value": "text_extraction"
         },
         {
-          "name": "DOCKER_TORCHSERVE_HOST",
+          "name": "TORCHSERVE_HOST",
           "value": "inference"
         },
         {
-          "name": "DOCKER_WEB_HOST",
+          "name": "WEB_HOST",
           "value": "web"
         },
 
@@ -415,33 +415,33 @@
           },
           {
             "name": "DJANGO_SETTINGS_MODULE",
-            "value": "config.settings.dockerised_self_hosted"
+            "value": "config.settings.selfhosted"
           },
           {
             "name": "DJANGO_SUPERUSER_PASSWORD",
             "value": "changeme"
           },
-          {            "name": "DOCKER_LIBRE_OFFICE_HOST",
+          {            "name": "LIBRE_OFFICE_HOST",
           "value": "libreoffice"
         },
         {
-          "name": "DOCKER_OCR_HOST",
+          "name": "OCR_HOST",
           "value": "ocr"
         },
         {
-          "name": "DOCKER_PDFKIT_HOST",
+          "name": "PDFKIT_HOST",
           "value": "pdfkit"
         },
         {
-          "name": "DOCKER_TEXT_EXTRACTION_HOST",
+          "name": "TEXT_EXTRACTION_HOST",
           "value": "text_extraction"
         },
         {
-          "name": "DOCKER_TORCHSERVE_HOST",
+          "name": "TORCHSERVE_HOST",
           "value": "inference"
         },
         {
-          "name": "DOCKER_WEB_HOST",
+          "name": "WEB_HOST",
           "value": "web"
         },
           {
