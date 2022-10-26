@@ -24,10 +24,6 @@
           "value": "1"
         },
         {
-          "name": "CELERY_CONCURRENCY",
-          "value": "6"
-        },
-        {
           "name": "CELERY_DEBUG_LEVEL",
           "value": "INFO"
         },
@@ -236,10 +232,6 @@
         },
         {
           "name": "C_FORCE_ROOT",
-          "value": "1"
-        },
-        {
-          "name": "CELERY_CONCURRENCY",
           "value": "1"
         },
         {
