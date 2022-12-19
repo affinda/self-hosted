@@ -99,12 +99,11 @@ services:
 
   redis:
     image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:latest
-    command: "--port ${REDIS_PORT:-6379}"
     healthcheck:
-      test: "redis-cli -p ${REDIS_PORT:-6379} ping"
+      test: "redis-cli -p 6379 ping"
       interval: 2s
     ports:
-      - "${REDIS_PORT:-6379}:${REDIS_PORT:-6379}"
+      - "6379:6379"
     volumes:
       - affinda_shared:/opt/shared/
 
@@ -113,7 +112,7 @@ services:
     image: 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest
     restart: always
     ports:
-      - "${WEB_HOST:-80}:80"
+      - "${HOST_PORT:-80}:80"
     environment:
       APPS_MODE: "WEB_SELFHOSTED"
       SENTRY_ENABLED: "0"
@@ -135,7 +134,7 @@ services:
       TORCHSERVE_INFERENCE_PORT: "${TORCHSERVE_INFERENCE_PORT:-5014}"
       TORCHSERVE_MANAGEMENT_PORT: "${TORCHSERVE_MANAGEMENT_PORT:-5015}"
       DB_PORT: "${DB_PORT:-5432}"
-      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PORT: "6379"
       USE_ELASTICSEARCH: "0"
     healthcheck:
       test: "curl --fail http://localhost:80/admin || exit 1"
@@ -168,7 +167,7 @@ services:
       # GPU specific params
       PRELOAD_SMALL_MODELS: "True"
       C_FORCE_ROOT: "1"
-      CELERY_QUEUES: "high_priority,low_priority"
+      CELERY_QUEUES: "low_priority,high_priority"
       CELERY_DEBUG_LEVEL: "INFO"
       # DOCKER specific ENV VARS defaults are in config.settings.base
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
@@ -178,7 +177,7 @@ services:
       TORCHSERVE_INFERENCE_PORT: "${TORCHSERVE_INFERENCE_PORT:-5014}"
       TORCHSERVE_MANAGEMENT_PORT: "${TORCHSERVE_MANAGEMENT_PORT:-5015}"
       DB_PORT: "${DB_PORT:-5432}"
-      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PORT: "6379"
       USE_ELASTICSEARCH: "0"
     deploy:
       replicas: 2
@@ -221,9 +220,6 @@ services:
       CELERY_QUEUES: "low_priority,high_priority"
       CELERY_DEBUG_LEVEL: "INFO"
       SENTRY_ENVIRONMENT: "selfhosted"
-      DB_NAME: "affinda"
-      DB_USER: "postgres"
-      DB_PASS: "password"
       # DOCKER specific ENV VARS defaults are in config.settings.base
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
       OCR_PORT: "${OCR_PORT:-5011}"
@@ -232,7 +228,7 @@ services:
       TORCHSERVE_INFERENCE_PORT: "${TORCHSERVE_INFERENCE_PORT:-5014}"
       TORCHSERVE_MANAGEMENT_PORT: "${TORCHSERVE_MANAGEMENT_PORT:-5015}"
       DB_PORT: "${DB_PORT:-5432}"
-      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PORT: "6379"
       USE_ELASTICSEARCH: "0"
 
     deploy:
