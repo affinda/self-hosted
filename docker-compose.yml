@@ -168,7 +168,7 @@ services:
       # GPU specific params
       PRELOAD_SMALL_MODELS: "True"
       C_FORCE_ROOT: "1"
-      CELERY_QUEUES: "low_priority,high_priority"
+      CELERY_QUEUES: "high_priority,low_priority"
       CELERY_DEBUG_LEVEL: "INFO"
       # DOCKER specific ENV VARS defaults are in config.settings.base
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
