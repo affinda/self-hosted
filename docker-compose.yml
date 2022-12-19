@@ -58,8 +58,8 @@ services:
       TS_MODEL_CONFIG: >-  # Won't append newlines or add newlines in string
         {
         "headshot":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
-        "resumes_layoutlmv2":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
-        "resumes_layoutlmv2_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resumes_layout_tagger_mt":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resumes_layout_tagger_mt_xlm":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
         "spacy_en_core_web_sm":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
         "spacy_en_core_web_trf":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
         }
