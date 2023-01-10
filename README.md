@@ -36,6 +36,7 @@ many instances who may require auto-scaling of capacity based on demand, we reco
     2. If you are not using AWS, then launch an instance with NVIDIA GPU drivers and docker engine/compose installed.
     3. Install `docker` and `docker compose` manually or by running the `./install_os_dependencies.sh` script in this
        repo
+    4. If installing `docker` for the first time, you'll need to restart your instance before continuing
 2. Authenticate docker with AWS. Note that the affinda repositories are private. Contact sales@affinda.com for access.
    Additionally, the IAM role for this instance will need to have ECR permissions assigned.
 
@@ -55,22 +56,23 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 ### Docker compose on linux instance
 
 1. Launch your instance, and using your package manager ensure `docker` and `docker compose` are installed. If running
-   on a debian-based system, this can be done by running the `./install_os_dependencies.sh` script in this repo
-2. Authenticate docker with the affinda Dockerhub repo. Note that the affinda repositories are private. Contact
+   on a debian-based system, this can be done by running the `./install_os_dependencies.sh` script in this repo.
+2. If installing `docker` for the first time, you'll need to restart your instance before continuing
+3. Authenticate docker with the affinda Dockerhub repo. Note that the affinda repositories are private. Contact
    sales@affinda.com for access.
 
     ```shell
     docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
     ```
-3. Add the [docker compose](docker-compose-dockerhub.yml) file to your the home directory on the server and rename it
+4. Add the [docker compose](docker-compose-dockerhub.yml) file to your the home directory on the server and rename it
    to `docker-compose.yml`. This could also be achieved by cloning this repository
    with `git clone git@github.com:affinda/self-hosted.git`
-4. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
+5. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
    using https://djecrety.ir/ to create a new key.
-5. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
-6. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
-7. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
-8. You should now be able to access the admin login page at the IP address of the service (by
+6. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
+7. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
+8. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
+9. You should now be able to access the admin login page at the IP address of the service (by
    default, `http://localhost`)
 
 ### Elastic Container Service (ECS)
