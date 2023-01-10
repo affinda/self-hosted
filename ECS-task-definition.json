@@ -692,10 +692,6 @@
           "value": "inference_container_selfhosted"
         },
         {
-          "name": "SPACY_USE_CUDA",
-          "value": "1"
-        },
-        {
           "name": "TS_INFERENCE_ADDRESS",
           "value": "http://0.0.0.0:5014"
         },
@@ -705,7 +701,7 @@
         },
         {
           "name": "TS_MODEL_CONFIG",
-          "value": "{\"headshot\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2_multi\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"spacy_en_core_web_sm\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"spacy_en_core_web_trf\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}}}"
+          "value": "{\"headshot\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2_multi\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}}}"
         }
       ],
       "resourceRequirements": [

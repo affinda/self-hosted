@@ -54,14 +54,11 @@ services:
       TS_MANAGEMENT_ADDRESS: "http://0.0.0.0:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
       SENTRY_ENABLED: "0"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
-      SPACY_USE_CUDA: "1"
       TS_MODEL_CONFIG: >-  # Won't append newlines or add newlines in string
         {
         "headshot":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
         "resumes_layout_tagger_mt":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
         "resumes_layout_tagger_mt_xlm":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
-        "spacy_en_core_web_sm":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
-        "spacy_en_core_web_trf":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
         }
     healthcheck:
       test: "curl --fail http://0.0.0.0:${TORCHSERVE_INFERENCE_PORT:-5014}/ping || exit 1"

@@ -62,8 +62,10 @@ many instances who may require auto-scaling of capacity based on demand, we reco
    sales@affinda.com for access.
 
     ```shell
-    docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+    docker login --username $DOCKERHUB_USERNAME
     ```
+   Then provide your Dockerhub password.
+
 4. Add the [docker compose](docker-compose-dockerhub.yml) file to your the home directory on the server and rename it
    to `docker-compose.yml`. This could also be achieved by cloning this repository
    with `git clone git@github.com:affinda/self-hosted.git`
