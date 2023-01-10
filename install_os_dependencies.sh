@@ -2,7 +2,7 @@
 set -euo pipefail # Exit on any non-zero exit code, and error on use of undefined var
 REQUIRED_PYTHON="3.8.11"
 REQUIRED_DOCKER="20.*"
-REQUIRED_DOCKER_COMPOSE="2.10.*"
+REQUIRED_DOCKER_COMPOSE="2.15.*"
 
 export ROOT_DIR="$(dirname "$0")"
 cd "$ROOT_DIR"
