@@ -69,13 +69,13 @@ services:
       timeout: 2s
       start_period: 20s
       retries: 20
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - driver: nvidia
-#              count: all
-#              capabilities: [ gpu, utility, compute ]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu, utility, compute ]
 
   db:
     image: affinda/affinda-db:latest
