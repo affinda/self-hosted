@@ -42,14 +42,14 @@ many instances who may require auto-scaling of capacity based on demand, we reco
     ```shell
     aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com
     ```
-
-3. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
-   using https://djecrety.ir/ to create a new key.
-4. Add the [docker compose](docker-compose.yml) file to your the home directory on the server. This could also be
+3. Add the [docker compose](docker-compose.yml) file to your the home directory on the server. This could also be
    achieved by cloning this repository with `git clone git@github.com:affinda/self-hosted.git`
-5. Run `docker compose pull` and `docker compose up` to pull the containers and start the service.
-6. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
-7. You should now be able to access the admin login page at the IP address of the service (by
+4. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
+   using https://djecrety.ir/ to create a new key.
+5. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
+6. Run `docker compose pull` and `docker compose up` to pull the containers and start the service.
+7. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
+8. You should now be able to access the admin login page at the IP address of the service (by
    default, `http://localhost`).
 
 ### Docker compose on linux instance
@@ -58,19 +58,19 @@ many instances who may require auto-scaling of capacity based on demand, we reco
    on a debian-based system, this can be done by running the `./install_os_dependencies.sh` script in this repo
 2. Authenticate docker with the affinda Dockerhub repo. Note that the affinda repositories are private. Contact
    sales@affinda.com for access.
-    
-    ```shell
-    docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_TOKEN
-    ```
 
-3. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
+    ```shell
+    docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+    ```
+3. Add the [docker compose](docker-compose-dockerhub.yml) file to your the home directory on the server and rename it
+   to `docker-compose.yml`. This could also be achieved by cloning this repository
+   with `git clone git@github.com:affinda/self-hosted.git`
+4. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
    using https://djecrety.ir/ to create a new key.
-4. Add the [docker compose](docker-compose-dockerhub.yml) file to your the home directory on the server. This could also
-   be
-   achieved by cloning this repository with `git clone git@github.com:affinda/self-hosted.git`
-5. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
-6. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
-7. You should now be able to access the admin login page at the IP address of the service (by
+5. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
+6. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
+7. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
+8. You should now be able to access the admin login page at the IP address of the service (by
    default, `http://localhost`)
 
 ### Elastic Container Service (ECS)
@@ -143,7 +143,6 @@ with open("path_to_resume", "rb") as f:
 
 API documentation and links to our other client libraries can be found at https://api.affinda.com/docs.
 
-
 ## FAQ's
 
 ### How do I disable GPU support?
@@ -159,4 +158,5 @@ If using docker compose, modify your `docker-compose.yml` to remove the lines be
               count: all
               capabilities: [ gpu, utility, compute ]
 ```
+
 Note that this will slow down document parsing significantly, by approximately 3 seconds per document.
