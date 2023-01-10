@@ -143,3 +143,20 @@ with open("path_to_resume", "rb") as f:
 
 API documentation and links to our other client libraries can be found at https://api.affinda.com/docs.
 
+
+## FAQ's
+
+### How do I disable GPU support?
+
+If using docker compose, modify your `docker-compose.yml` to remove the lines below:
+
+```yaml
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu, utility, compute ]
+```
+Note that this will slow down document parsing significantly, by approximately 3 seconds per document.
