@@ -137,7 +137,7 @@ services:
       test: "curl --fail http://localhost:80/admin || exit 1"
       interval: 5s
       timeout: 3s
-      start_period: 240s
+      start_period: 600s
       retries: 20
 
     depends_on:
