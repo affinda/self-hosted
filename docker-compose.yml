@@ -118,7 +118,7 @@ services:
       SENTRY_ENABLED: "0"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       AFFINDA_CLIENT_API_SPEC_DIR: "/opt/affinda/api_spec"
-      DJANGO_SECRET_KEY: "${DJANGO_SECRET_KEY:?Django Secret Key MUST be available in the env}"
+      DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
       DJANGO_SETTINGS_MODULE: "config.settings.selfhosted"
       DJANGO_SUPERUSER_PASSWORD: "changeme"
       API_ROOT_URL: "http://api.localhost:80"
