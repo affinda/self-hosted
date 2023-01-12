@@ -29,7 +29,7 @@
         },
         {
           "name": "CELERY_QUEUES",
-          "value": "low_priority,high_priority"
+          "value": "priority_1,priority_2,priority_3"
         },
         {
           "name": "DB_HOST",
@@ -240,7 +240,7 @@
         },
         {
           "name": "CELERY_QUEUES",
-          "value": "low_priority,high_priority"
+          "value": "priority_1,priority_2,priority_3"
         },
         {
           "name": "DB_HOST",
@@ -701,7 +701,7 @@
         },
         {
           "name": "TS_MODEL_CONFIG",
-          "value": "{\"headshot\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layoutlmv2_multi\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}}}"
+          "value": "{\"headshot\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layout_tagger_mt\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resumes_layout_tagger_mt_xlm\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}}}"
         }
       ],
       "resourceRequirements": [
