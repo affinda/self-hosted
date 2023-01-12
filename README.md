@@ -139,7 +139,7 @@ with `pip install affinda`, and called as follows:
 from affinda import AffindaAPI, TokenCredential
 
 credential = TokenCredential(token="your_token")
-client = AffindaAPI(credential=credential, base_url="http://your_ip/api/v1")
+client = AffindaAPI(credential=credential, base_url="http://your_ip/api/v2")
 
 with open("path_to_resume", "rb") as f:
     resume = client.create_resume(file=f)
