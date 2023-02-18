@@ -388,10 +388,6 @@
       "cpu": 0,
       "environment": [
         {
-          "name": "AFFINDA_CLIENT_API_SPEC_DIR",
-          "value": "/opt/affinda/api_spec"
-        },
-        {
           "name": "APPS_MODE",
           "value": "WEB_SELFHOSTED"
         },

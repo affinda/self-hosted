@@ -114,7 +114,6 @@ services:
       APPS_MODE: "WEB_SELFHOSTED"
       SENTRY_ENABLED: "0"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
-      AFFINDA_CLIENT_API_SPEC_DIR: "/opt/affinda/api_spec"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
       DJANGO_SETTINGS_MODULE: "config.settings.selfhosted"
       DJANGO_SUPERUSER_PASSWORD: "changeme"
