@@ -41,7 +41,7 @@ many instances who may require auto-scaling of capacity based on demand, we reco
    Additionally, the IAM role for this instance will need to have ECR permissions assigned.
 
     ```shell
-    aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 332187135683.dkr.ecr.ap-southeast-2.amazonaws.com
+    aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com
     ```
 3. Add the [docker compose](docker-compose.yml) file to your the home directory on the server. This could also be
    achieved by cloning this repository with `git clone git@github.com:affinda/self-hosted.git`

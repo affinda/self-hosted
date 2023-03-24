@@ -45,7 +45,7 @@ services:
 
 
   inference:
-    image: affinda/affinda-inference:resumes-latest
+    image: affinda/affinda-inference-selfhosted-resumes:latest
     ports:
       - "${TORCHSERVE_INFERENCE_PORT:-5014}:${TORCHSERVE_INFERENCE_PORT:-5014}"
       - "${TORCHSERVE_MANAGEMENT_PORT:-5015}:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
