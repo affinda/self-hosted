@@ -127,25 +127,78 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 The initial login credentials are: `admin`, password: `changeme`. Once logged in, change the password. This initial
 password can also be set with the environment variable `DJANGO_SUPERUSER_PASSWORD`.
 
-Detailed documentation regarding the API can be found at https://api.affinda.com/docs or on your local instance
-at `/docs`
+Detailed documentation regarding the API can be found at https://docs.affinda.com. The full API spec can be downloaded
+from your service at `http://api.<YOUR_HOST>/static/v3/api_spec_with_snippets.json`
+and `http://api.<YOUR_HOST>/static/v2/api_spec_with_snippets.json` for versions `v3` and `v2` respectively.
 
 API keys can be accessed at `/admin/users/user/`
 
 We recommend using our client libraries to call the API. For example, our python client library can be installed
-with `pip install affinda`, and called as follows:
+with `pip install "affinda<4.0.0"`, and called as follows:
 
 ```python
 from affinda import AffindaAPI, TokenCredential
 
 credential = TokenCredential(token="your_token")
-client = AffindaAPI(credential=credential, base_url="http://your_ip/api")
+client = AffindaAPI(credential=credential, base_url="http://api.localhost/api")
 
 with open("path_to_resume", "rb") as f:
     resume = client.create_resume(file=f)
 ```
 
-API documentation and links to our other client libraries can be found at https://api.affinda.com/docs.
+Note that there is two versions of the API in use - `v2` and `v3`, with different versions of the client libraries
+supporting each. For example, the python client lib versions `3.X.X` supports api `v2`, and `4.X.X` supports `v3`.
+The above example is for `v2`. For `v3`, the workflow would be:
+
+`pip install "affinda>4.0.0"`
+
+```python
+from pathlib import Path
+from pprint import pprint
+
+from affinda import AffindaAPI, TokenCredential
+from affinda.models import WorkspaceCreate, CollectionCreate
+
+token = "REPLACE_API_TOKEN"
+file_pth = Path("PATH_TO_DOCUMENT.pdf")
+
+credential = TokenCredential(token=token)
+client = AffindaAPI(credential=credential)
+
+# First get the organisation, by default your first one will have free credits
+my_organisation = client.get_all_organizations()[0]
+
+# And within that organisation, create a workspace, for example for Recruitment:
+workspace_body = WorkspaceCreate(
+    organization=my_organisation.identifier,
+    name="Recruitment New",
+)
+recruitment_workspace = client.create_workspace(body=workspace_body)
+
+# Finally, create a collection that will contain our uploaded documents, for example resumes, by selecting the
+# appropriate extractor
+collection_body = CollectionCreate(
+    name="Resumes", workspace=recruitment_workspace.identifier, extractor="resume"
+)
+resume_collection = client.create_collection(collection_body)
+
+# Now we can upload a resume for parsing
+with open(file_pth, "rb") as f:
+    resume = client.create_document(file=f, file_name=file_pth.name, collection=resume_collection.identifier)
+
+pprint(resume.as_dict())
+```
+
+API documentation and links to our other client libraries can be found at https://docs.affinda.com.
+
+## Portal
+
+Selfhosted clients can now access the portal web interface as another method of uploading, viewing and managing docs.
+This can be accessed at `http:/app.<your_url>`. The default email is `admin@affinda.com`, and the default password is
+the same as above - `changeme` or whatever was set by `DJANGO_SUPERUSER_PASSWORD`.
+
+Note that creation of workspaces for extractors other than resumes will not function, and any user creation must occur
+through the `admin.<your_url>/admin` interface.
 
 ## FAQ's
 

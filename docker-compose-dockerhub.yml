@@ -34,7 +34,6 @@ services:
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
 
-
   libre_office:
     image: affinda/libre_office:latest
     hostname: libreoffice
