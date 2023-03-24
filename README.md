@@ -14,6 +14,8 @@ Some instructions are AWS-specific, however running on other cloud platforms is 
 
 You will need access to the relevant Affinda repositories to run this code. Please contact sales@affinda.com.
 
+Release notes for significant version changes can be [found in this repository here](./RELEASES.md)
+
 ## Installation
 
 There are three supported approaches to configuring the service:
