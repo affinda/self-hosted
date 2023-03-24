@@ -51,7 +51,7 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 6. Run `docker compose pull` and `docker compose up` to pull the containers and start the service.
 7. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
 8. You should now be able to access the admin login page at the IP address of the service (by
-   default, `http://localhost`).
+   default, `http://admin.localhost/admin`).
 
 ### Docker compose on linux instance
 
@@ -75,7 +75,7 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 7. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
 8. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
 9. You should now be able to access the admin login page at the IP address of the service (by
-   default, `http://localhost`)
+   default, `http://admin.localhost/admin`)
 
 ### Elastic Container Service (ECS)
 
@@ -124,12 +124,14 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 
 ## Usage
 
+*Note - where `localhost` is used below, substitute the host IP/name of your service.*
+
 The initial login credentials are: `admin`, password: `changeme`. Once logged in, change the password. This initial
 password can also be set with the environment variable `DJANGO_SUPERUSER_PASSWORD`.
 
 Detailed documentation regarding the API can be found at https://docs.affinda.com. The full API spec can be downloaded
-from your service at `http://api.<YOUR_HOST>/static/v3/api_spec_with_snippets.json`
-and `http://api.<YOUR_HOST>/static/v2/api_spec_with_snippets.json` for versions `v3` and `v2` respectively.
+from your service at `http://api.localhost/static/v3/api_spec_with_snippets.json`
+and `http://api.loclhost/static/v2/api_spec_with_snippets.json` for versions `v3` and `v2` respectively.
 
 API keys can be accessed at `/admin/users/user/`
 
@@ -163,7 +165,7 @@ token = "REPLACE_API_TOKEN"
 file_pth = Path("PATH_TO_DOCUMENT.pdf")
 
 credential = TokenCredential(token=token)
-client = AffindaAPI(credential=credential)
+client = AffindaAPI(credential=credential, base_url="http://api.localhost/api")
 
 # First get the organisation, by default your first one will have free credits
 my_organisation = client.get_all_organizations()[0]
