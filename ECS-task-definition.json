@@ -783,7 +783,7 @@
         "command": [
           "curl",
           "--fail",
-          "127.0.0.1:5013"
+          "127.0.0.1:5013/v3/api-docs"
         ],
         "timeout": 3,
         "interval": 5,
