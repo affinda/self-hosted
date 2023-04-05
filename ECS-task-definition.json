@@ -104,6 +104,10 @@
           "value": "redis"
         },
         {
+          "name": "REDIS_PORT",
+          "value": "6379"
+        },
+        {
           "name": "SENTRY_ENVIRONMENT",
           "value": "selfhosted"
         },
@@ -315,6 +319,10 @@
           "value": "redis"
         },
         {
+          "name": "REDIS_PORT",
+          "value": "6379"
+        },
+        {
           "name": "SENTRY_ENVIRONMENT",
           "value": "selfhosted"
         },
@@ -462,6 +470,10 @@
         {
           "name": "REDIS_HOST",
           "value": "redis"
+        },
+        {
+          "name": "REDIS_PORT",
+          "value": "6379"
         },
         {
           "name": "SENTRY_ENVIRONMENT",
