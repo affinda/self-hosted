@@ -11,7 +11,7 @@ services:
     ports:
       - "${TEXT_EXTRACTION_PORT:-5010}:${TEXT_EXTRACTION_PORT:-5010}"
     environment:
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
 
@@ -20,7 +20,7 @@ services:
     ports:
       - "${OCR_PORT:-5011}:${OCR_PORT:-5011}"
     environment:
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       OCR_PORT: "${OCR_PORT:-5011}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
 
@@ -30,7 +30,7 @@ services:
     ports:
       - "${PDFKIT_PORT:-5012}:${PDFKIT_PORT:-5012}"
     environment:
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
 
@@ -52,7 +52,7 @@ services:
     environment:
       TS_INFERENCE_ADDRESS: "http://0.0.0.0:${TORCHSERVE_INFERENCE_PORT:-5014}"
       TS_MANAGEMENT_ADDRESS: "http://0.0.0.0:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       TS_MODEL_CONFIG: >-  # Won't append newlines or add newlines in string
         {
@@ -112,7 +112,7 @@ services:
       - "${HOST_PORT:-80}:80"
     environment:
       APPS_MODE: "WEB_SELFHOSTED"
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
       DJANGO_SETTINGS_MODULE: "config.settings.selfhosted"
@@ -151,7 +151,7 @@ services:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest
     environment:
       APPS_MODE: "CELERY_WORKER"
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
       DJANGO_SETTINGS_MODULE: "config.settings.selfhosted"
@@ -202,7 +202,7 @@ services:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:latest
     environment:
       APPS_MODE: "CELERY_BEAT"
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
       DJANGO_SETTINGS_MODULE: "config.settings.selfhosted"
