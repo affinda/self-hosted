@@ -1,0 +1,70 @@
+{
+    "logger": {
+      "level": "info",
+      "timestamp": true,
+      "colorize": true
+    },
+    "esclient": {
+      "apiVersion": "7.5",
+      "hosts": [
+        {
+          "host": "pelias_elasticsearch",
+          "port": 9200
+        }
+      ]
+    },
+    "elasticsearch": {
+      "settings": {
+        "index": {
+          "refresh_interval": "10s",
+          "number_of_replicas": "0",
+          "number_of_shards": "12"
+        }
+      }
+    },
+    "acceptance-tests": {
+      "endpoints": {
+        "docker": "http://pelias_api:4000/v1/"
+      }
+    },
+    "api": {
+      "services": {
+        "placeholder": {
+          "url": "http://pelias_placeholder:4100"
+        },
+        "libpostal": {
+          "url": "http://pelias_libpostal:4400"
+        }
+      }
+    },
+    "imports": {
+      "adminLookup": {
+        "enabled": true
+      },
+      "geonames": {
+        "datapath": "/data/geonames",
+        "countryCode": "ALL"
+      },
+      "openstreetmap": {
+        "download": [
+          {
+            "sourceURL": "https://free.nchc.org.tw/osm.planet/pbf/planet-latest.osm.pbf"
+          }
+        ],
+        "leveldbpath": "/tmp",
+        "datapath": "/data/openstreetmap",
+        "import": [
+          {
+            "filename": "planet-latest.osm.pbf",
+            "importVenues": true,
+            "importAddresses": false
+          }
+        ]
+      },
+      "whosonfirst": {
+        "datapath": "/data/whosonfirst",
+        "importPostalcodes": true
+      }
+    }
+  }
+  

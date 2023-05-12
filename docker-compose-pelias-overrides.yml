@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  web:
+    environment:
+      ENABLE_GEOCODING: "1"
+
+  celery_worker:
+    environment:
+      ENABLE_GEOCODING: "1"
+
+  pelias_elasticsearch:
+    image: "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pelias_elasticsearch:latest"
+    restart: always
+    ports: [ "4500:9200", "4600:9300" ]  # Map local ports differently so they don't clash with the main elasticsearch service
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add: [ "IPC_LOCK" ]
+
+  pelias_api:
+    image: "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pelias_api:latest"
+    restart: always
+    environment:
+      PORT: 4000
+      ELASTICSEARCH_HOST: 4500
+    ports: [ "4000:4000" ]
+    volumes:
+      - "./pelias.json:/code/pelias.json"
+    depends_on:
+      pelias_elasticsearch:
+        condition: service_healthy
+
+  pelias_placeholder:
+    image: "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pelias_placeholder:latest"
+    restart: always
+    environment:
+      PORT: 4100
+    ports: [ "4100:4100" ]
+    depends_on:
+      pelias_elasticsearch:
+        condition: service_healthy
+
+  pelias_libpostal:
+    image: "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pelias_libpostal:latest"
+    restart: always
+    ports: [ "4400:4400" ]
+    depends_on:
+      pelias_elasticsearch:
+        condition: service_healthy

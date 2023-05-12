@@ -221,3 +221,9 @@ If using docker compose, modify your `docker-compose.yml` to remove the lines be
 ```
 
 Note that this will slow down document parsing significantly, by approximately 3 seconds per document.
+
+### How do I enable geocoding?
+
+See additional required container and environment variables in `docker-compose-pelias-overrides.yml`
+
+This can be run with docker compose with `docker compose --file docker-compose.yml --file docker-compose-pelias-overrides.yml up`
