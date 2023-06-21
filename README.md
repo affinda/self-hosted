@@ -135,7 +135,14 @@ Detailed documentation regarding the API can be found at https://docs.affinda.co
 from your service at `http://api.localhost/static/v3/api_spec_with_snippets.json`
 and `http://api.loclhost/static/v2/api_spec_with_snippets.json` for versions `v3` and `v2` respectively.
 
-API keys can be accessed at `/admin/users/user/`
+To get an API key, navigate to `localhost`, login with `admin@affinda.com` and the password you set above, and then
+navigate to the user settings page by clicking in the top right, then selecting `Create API Key' and generate one, as shown 
+below:
+
+![API key generation1](docs/img/api_key_generation1.png)
+
+![API key generation2](docs/img/api_key_generation2.png)
+
 
 We recommend using our client libraries to call the API. For example, our python client library can be installed
 with `pip install "affinda<4.0.0"`, and called as follows:
@@ -144,7 +151,7 @@ with `pip install "affinda<4.0.0"`, and called as follows:
 from affinda import AffindaAPI, TokenCredential
 
 credential = TokenCredential(token="your_token")
-client = AffindaAPI(credential=credential, base_url="http://api.localhost/api")
+client = AffindaAPI(credential=credential, base_url="http://localhost/api")
 
 with open("path_to_resume", "rb") as f:
     resume = client.create_resume(file=f)
@@ -167,7 +174,7 @@ token = "REPLACE_API_TOKEN"
 file_pth = Path("PATH_TO_DOCUMENT.pdf")
 
 credential = TokenCredential(token=token)
-client = AffindaAPI(credential=credential, base_url="http://api.localhost/api")
+client = AffindaAPI(credential=credential, base_url="http://localhost/api")
 
 # First get the organisation, by default your first one will have free credits
 my_organisation = client.get_all_organizations()[0]
@@ -226,4 +233,5 @@ Note that this will slow down document parsing significantly, by approximately 3
 
 See additional required container and environment variables in `docker-compose-pelias-overrides.yml`
 
-This can be run with docker compose with `docker compose --file docker-compose.yml --file docker-compose-pelias-overrides.yml up`
+This can be run with docker compose
+with `docker compose --file docker-compose.yml --file docker-compose-pelias-overrides.yml up`
