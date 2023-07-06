@@ -1,0 +1,101 @@
+#cloud-config
+
+bootcmd:
+  - [ cloud-init-per, once, gpg-key-epel, rpm, "--import", "https://archive.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7" ]
+
+yum_repos:
+  epel:
+    name: EPEL
+    mirrorlist: https://mirrors.fedoraproject.org/mirrorlist?repo=epel-7&arch=$basearch
+    enabled: true
+    gpgcheck: true
+
+packages:
+  - amazon-efs-utils
+  - s3fs-fuse
+
+package_update: true
+package_upgrade: true
+
+runcmd:
+  - sysctl -w vm.max_map_count=262144
+  - sysctl --system
+
+write_files:
+  - content: |
+      ECS_CLUSTER=${ecscluster}
+    path: /etc/ecs/ecs.config
+    append: true
+
+  - content: |
+      {
+        "logger": {
+          "level": "info",
+          "timestamp": true,
+          "colorize": true
+        },
+        "esclient": {
+          "apiVersion": "7.5",
+          "hosts": [
+            {
+              "host": "localhost",
+              "port": 9200
+            }
+          ]
+        },
+        "elasticsearch": {
+          "settings": {
+            "index": {
+              "refresh_interval": "10s",
+              "number_of_replicas": "0",
+              "number_of_shards": "12"
+            }
+          }
+        },
+        "acceptance-tests": {
+          "endpoints": {
+            "docker": "http://localhost:4000/v1/"
+          }
+        },
+        "api": {
+          "services": {
+            "placeholder": {
+              "url": "http://localhost:4100"
+            },
+            "libpostal": {
+              "url": "http://localhost:4400"
+            }
+          }
+        },
+        "imports": {
+          "adminLookup": {
+            "enabled": true
+          },
+          "geonames": {
+            "datapath": "/data/geonames",
+            "countryCode": "ALL"
+          },
+          "openstreetmap": {
+            "download": [
+              {
+                "sourceURL": "https://free.nchc.org.tw/osm.planet/pbf/planet-latest.osm.pbf"
+              }
+            ],
+            "leveldbpath": "/tmp",
+            "datapath": "/data/openstreetmap",
+            "import": [
+              {
+                "filename": "planet-latest.osm.pbf",
+                "importVenues": true,
+                "importAddresses": false
+              }
+            ]
+          },
+          "whosonfirst": {
+            "datapath": "/data/whosonfirst",
+            "importPostalcodes": true
+          }
+        }
+      }
+    path: /opt/affinda/pelias.json
+    append: false
