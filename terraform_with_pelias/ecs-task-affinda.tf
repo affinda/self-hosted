@@ -749,13 +749,7 @@ resource aws_ecs_task_definition affinda {
     ],
     "essential": true,
     "environment": [],
-    "mountPoints": [
-        {
-            "sourceVolume": "affinda_shared",
-            "containerPath": "/opt/shared/",
-            "readOnly": false
-        }
-    ],
+    "mountPoints": [],
     "volumesFrom": [],
     "logConfiguration": {
         "logDriver": "awslogs",

@@ -832,13 +832,7 @@
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": [],
-      "mountPoints": [
-        {
-          "readOnly": false,
-          "containerPath": "/opt/shared/",
-          "sourceVolume": "affinda_shared"
-        }
-      ],
+      "mountPoints": [],
       "workingDirectory": null,
       "secrets": null,
       "dockerSecurityOptions": [],

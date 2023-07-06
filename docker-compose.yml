@@ -101,8 +101,6 @@ services:
       interval: 2s
     ports:
       - "6379:6379"
-    volumes:
-      - affinda_shared:/opt/shared/
 
   # APPS Services
   web:
@@ -138,7 +136,6 @@ services:
       timeout: 3s
       start_period: 600s
       retries: 20
-
     depends_on:
       db:
         condition: service_healthy
@@ -177,7 +174,6 @@ services:
       USE_ELASTICSEARCH: "0"
     deploy:
       replicas: 2
-
     volumes:
       - affinda_shared:/opt/shared/
     depends_on:
@@ -226,10 +222,8 @@ services:
       DB_PORT: "${DB_PORT:-5432}"
       REDIS_PORT: "6379"
       USE_ELASTICSEARCH: "0"
-
     deploy:
       replicas: 1
-
     volumes:
       - affinda_shared:/opt/shared/
     depends_on:
