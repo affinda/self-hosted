@@ -159,6 +159,10 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "PELIAS_API_PORT",
             "value": "4000"
+        },
+        {
+            "name": "DB_LOCAL_CONNECTION_POOLING",
+            "value": "1"
         }
     ],
     "mountPoints": [
@@ -349,6 +353,10 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "HOME",
             "value": "/opt/affinda"
+        },
+        {
+            "name": "DB_LOCAL_CONNECTION_POOLING",
+            "value": "1"
         }
     ],
     "mountPoints": [
@@ -510,6 +518,10 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "PELIAS_API_PORT",
             "value": "4000"
+        },
+        {
+            "name": "DB_LOCAL_CONNECTION_POOLING",
+            "value": "1"
         }
     ],
     "mountPoints": [
