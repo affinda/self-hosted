@@ -24,7 +24,6 @@ services:
       OCR_PORT: "${OCR_PORT:-5011}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
 
-
   pdfkit:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdfkit:latest
     ports:
@@ -33,7 +32,6 @@ services:
       SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
-
 
   libre_office:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/libre_office:latest
@@ -136,6 +134,8 @@ services:
       DB_USER: postgres
       REDIS_PORT: "6379"
       USE_ELASTICSEARCH: "0"
+      CELERY_TASK_SOFT_TIME_LIMIT: "${CELERY_TASK_SOFT_TIME_LIMIT:-60}"
+      CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
     healthcheck:
       test: "curl --fail http://localhost:80/admin || exit 1"
       interval: 5s
@@ -184,6 +184,8 @@ services:
       DB_USER: postgres
       REDIS_PORT: "6379"
       USE_ELASTICSEARCH: "0"
+      CELERY_TASK_SOFT_TIME_LIMIT: "${CELERY_TASK_SOFT_TIME_LIMIT:-60}"
+      CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
     deploy:
       replicas: 2
     volumes:
