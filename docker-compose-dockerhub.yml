@@ -4,6 +4,14 @@ volumes: # Note these will be prefixed by affinda_ when created by docker compos
   pgdata_selfhosted:
   affinda_shared:
 
+networks:
+  default:
+    name: affinda_selfhosted_shared
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.33.0/24
+
 services:
   # Local dev containers
   text_extraction:
