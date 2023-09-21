@@ -59,11 +59,9 @@ services:
         "resume_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
         }
     healthcheck:
-      test: "curl --fail http://0.0.0.0:${TORCHSERVE_INFERENCE_PORT:-5014}/ping || exit 1"
-      interval: 5s
-      timeout: 2s
-      start_period: 20s
-      retries: 20
+      # Will still use other defaults from inference.Dockerfile
+      start_period: 600s # 20 minutes, because we have to load all the models above
+
     deploy:
       resources:
         reservations:
@@ -94,9 +92,6 @@ services:
 
   redis:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:latest
-    healthcheck:
-      test: "redis-cli -p 6379 ping"
-      interval: 2s
     ports:
       - "6379:6379"
 
@@ -137,11 +132,11 @@ services:
       CELERY_TASK_SOFT_TIME_LIMIT: "${CELERY_TASK_SOFT_TIME_LIMIT:-60}"
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
     healthcheck:
-      test: "curl --fail http://localhost:80/admin || exit 1"
+      test: "curl --fail http://localhost:80/status || exit 1"
       interval: 5s
-      timeout: 3s
-      start_period: 600s
-      retries: 20
+      timeout: 20s
+      start_period: 1200s # 20 minutes, starting can take a while if applying migrations
+      retries: 10
     depends_on:
       db:
         condition: service_healthy
