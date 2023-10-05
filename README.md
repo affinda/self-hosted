@@ -31,14 +31,14 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 
 1. Launch a new G4dn.2xlarge instance
    using [ami-0e60dbcf8a762bd42](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-0e60dbcf8a762bd42).
-   The configuration is optimised for this instance type, so if we recommend running additional instances if you require
+   The configuration is optimised for this instance type. We recommend running additional instances if you require
    higher throughput.
-    1. If you are not running in the region of the AMI (ap-southeast-2), you will need to copy the AMI to your region.
-       (actions -> copy AMI), or search the AMI catalog for `Deep Learning AMI GPU PyTorch 1.13.1 (Ubuntu 20.04)`
-    2. If you are not using AWS, then launch an instance with NVIDIA GPU drivers and docker engine/compose installed.
-    3. Install `docker` and `docker compose` manually or by running the `./install_os_dependencies.sh` script in this
+    1. If you are not running in the region of the AMI (ap-southeast-2), you will need to search the AMI catalog for
+       `Deep Learning AMI GPU PyTorch 1.13.1 (Ubuntu 20.04)`
+    3. If you are not using AWS, then launch an instance with NVIDIA GPU drivers and docker engine/compose installed.
+    4. Install `docker` and `docker compose` manually or by running the `./install_os_dependencies.sh` script in this
        repo
-    4. If installing `docker` for the first time, you'll need to restart your instance before continuing
+    5. If installing `docker` for the first time, you'll need to restart your instance before continuing
 2. Authenticate docker with AWS. Note that the affinda repositories are private. Contact sales@affinda.com for access.
    Additionally, the IAM role for this instance will need to have ECR permissions assigned.
 
@@ -81,17 +81,18 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 
 ### Elastic Container Service (ECS)
 
-1. Create a cluster with G4dn.2xlarge instances
-   using [ami-0e60dbcf8a762bd42](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-0e60dbcf8a762bd42).
-   If you are not running in the region of the AMI (ap-southeast-2), you will need to copy the AMI to your region (
-   actions -> copy AMI). Cluster creation can be done either through a browser, or using ecs-cli:
+1. Create a cluster with G4dn.2xlarge instances using
+   ([ami-0e60dbcf8a762bd42](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-0e60dbcf8a762bd42)).
+   If you are not running in the region of the AMI (ap-southeast-2), you will need to search the AMI catalog for
+   `Deep Learning AMI GPU PyTorch 1.13.1 (Ubuntu 20.04)` to find the corresponding AMI for your region.
+   Cluster creation can be done either through a browser, or using ecs-cli:
     1. If using a browser, create a new EC2 Linux + Networking cluster. You will not be able to specify the AMI
        at this step, the default amazon AMI will be automatically selected. After the cluster has been created, go to
-       cloud formation, select the stack relating to the cluster, update using the current template, and then change
+       CloudFormation, select the stack relating to the cluster, update using the current template, and then change
        the EcsAmiId
        to [ami-0e60dbcf8a762bd42](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-0e60dbcf8a762bd42).
        You may then want to terminate any instances that were launched using the default amazon AMI.
-    2. If using
+    3. If using
        ecs-cli ([installation instructions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html)),
        you need to:
         1. Run `ecs-cli configure --region your-region --cluster your-new-cluster-name`
@@ -111,18 +112,18 @@ many instances who may require auto-scaling of capacity based on demand, we reco
           --region your-aws-region
     ```
 
-2. When running in a cluster, it is preferable to have an external database for all the cluster instances to
+3. When running in a cluster, it is preferable to have an external database for all the cluster instances to
    share. It is possible to simply include a database within each instance, however this will cause problems if you
    want to track usage across accounts connecting to the cluster, or if you are using our Search and Match platform. So,
    you should create a new postgresql database through RDS, or wherever you normally create databases.
-3. Make a copy of [ECS-task-definition.json](ECS-task-definition.json) and update the database environment variables
+4. Make a copy of [ECS-task-definition.json](ECS-task-definition.json) and update the database environment variables
    based on the database from step (2) `DB_HOST` `DB_PASS` `DB_USER` `DB_NAME`. Note these environment variables appear
    three times each, as they are used by multiple containers in the service. Also choose an
    appropriate `executionRoleArn`.
-4. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears.
+5. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears.
    We recommend using https://djecrety.ir/ to create a new key.
-5. Create a task definition using this JSON either with ecs-cli, or through a browser.
-6. Create a new service on your cluster using this definition. You may want to route traffic through a load balancer.
+6. Create a task definition using this JSON either with ecs-cli, or through a browser.
+7. Create a new service on your cluster using this definition. You may want to route traffic through a load balancer.
 
 ## Usage
 
