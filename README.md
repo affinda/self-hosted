@@ -21,8 +21,8 @@ Release notes for significant version changes can be [found in this repository h
 There are three supported approaches to configuring the service:
 
 1. EC2 instance running docker compose
-2. Docker compose running on an arbitrary linux instance, pulling from affinda's private docker hub
-3. Elastic Container Service (ECS).
+1. Docker compose running on an arbitrary linux instance, pulling from affinda's private docker hub
+1. Elastic Container Service (ECS).
 
 For organizations running a single instance, we recommend docker compose. For organizations running
 many instances who may require auto-scaling of capacity based on demand, we recommend ECS.
@@ -35,32 +35,32 @@ many instances who may require auto-scaling of capacity based on demand, we reco
    higher throughput.
     1. If you are not running in the region of the AMI (ap-southeast-2), you will need to search the AMI catalog for
        `Deep Learning AMI GPU PyTorch 1.13.1 (Ubuntu 20.04)`
-    3. If you are not using AWS, then launch an instance with NVIDIA GPU drivers and docker engine/compose installed.
-    4. Install `docker` and `docker compose` manually or by running the `./install_os_dependencies.sh` script in this
+    1. If you are not using AWS, then launch an instance with NVIDIA GPU drivers and docker engine/compose installed.
+    1. Install `docker` and `docker compose` manually or by running the `./install_os_dependencies.sh` script in this
        repo
-    5. If installing `docker` for the first time, you'll need to restart your instance before continuing
-2. Authenticate docker with AWS. Note that the affinda repositories are private. Contact sales@affinda.com for access.
+    1. If installing `docker` for the first time, you'll need to restart your instance before continuing
+1. Authenticate docker with AWS. Note that the affinda repositories are private. Contact sales@affinda.com for access.
    Additionally, the IAM role for this instance will need to have ECR permissions assigned.
 
     ```shell
     aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com
     ```
-3. Add the [docker compose](docker-compose.yml) file to your the home directory on the server. This could also be
+1. Add the [docker compose](docker-compose.yml) file to your the home directory on the server. This could also be
    achieved by cloning this repository with `git clone git@github.com:affinda/self-hosted.git`
-4. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
+1. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
    using https://djecrety.ir/ to create a new key.
-5. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
-6. Run `docker compose pull` and `docker compose up` to pull the containers and start the service.
-7. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
-8. You should now be able to access the admin login page at the IP address of the service (by
+1. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
+1. Run `docker compose pull` and `docker compose up` to pull the containers and start the service.
+1. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
+1. You should now be able to access the admin login page at the IP address of the service (by
    default, `http://admin.localhost/admin`).
 
 ### Docker compose on linux instance
 
 1. Launch your instance, and using your package manager ensure `docker` and `docker compose` are installed. If running
    on a debian-based system, this can be done by running the `./install_os_dependencies.sh` script in this repo.
-2. If installing `docker` for the first time, you'll need to restart your instance before continuing
-3. Authenticate docker with the affinda Dockerhub repo. Note that the affinda repositories are private. Contact
+1. If installing `docker` for the first time, you'll need to restart your instance before continuing
+1. Authenticate docker with the affinda Dockerhub repo. Note that the affinda repositories are private. Contact
    sales@affinda.com for access.
 
     ```shell
@@ -68,15 +68,15 @@ many instances who may require auto-scaling of capacity based on demand, we reco
     ```
    Then provide your Dockerhub password.
 
-4. Add the [docker compose](docker-compose-dockerhub.yml) file to your the home directory on the server and rename it
+1. Add the [docker compose](docker-compose-dockerhub.yml) file to your the home directory on the server and rename it
    to `docker-compose.yml`. This could also be achieved by cloning this repository
    with `git clone git@github.com:affinda/self-hosted.git`
-5. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
+1. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears in `docker-compose.yml`. We recommend
    using https://djecrety.ir/ to create a new key.
-6. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
-7. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
-8. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
-9. You should now be able to access the admin login page at the IP address of the service (by
+1. If not using a GPU, modify the `docker-compose.yml` as [per the instructions below](#how-do-i-disable-gpu-support)
+1. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
+1. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
+1. You should now be able to access the admin login page at the IP address of the service (by
    default, `http://admin.localhost/admin`)
 
 ### Elastic Container Service (ECS)
@@ -92,11 +92,11 @@ many instances who may require auto-scaling of capacity based on demand, we reco
        the EcsAmiId
        to [ami-0e60dbcf8a762bd42](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#ImageDetails:imageId=ami-0e60dbcf8a762bd42).
        You may then want to terminate any instances that were launched using the default amazon AMI.
-    3. If using
+    1. If using
        ecs-cli ([installation instructions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html)),
        you need to:
         1. Run `ecs-cli configure --region your-region --cluster your-new-cluster-name`
-        2. Run the following to create a cluster in your VPC with appropriate subnets, IAM roles, etc.
+        1. Run the following to create a cluster in your VPC with appropriate subnets, IAM roles, etc.
 
     ```bash
     ecs-cli up \
@@ -112,18 +112,18 @@ many instances who may require auto-scaling of capacity based on demand, we reco
           --region your-aws-region
     ```
 
-3. When running in a cluster, it is preferable to have an external database for all the cluster instances to
+1. When running in a cluster, it is preferable to have an external database for all the cluster instances to
    share. It is possible to simply include a database within each instance, however this will cause problems if you
    want to track usage across accounts connecting to the cluster, or if you are using our Search and Match platform. So,
    you should create a new postgresql database through RDS, or wherever you normally create databases.
-4. Make a copy of [ECS-task-definition.json](ECS-task-definition.json) and update the database environment variables
+1. Make a copy of [ECS-task-definition.json](ECS-task-definition.json) and update the database environment variables
    based on the database from step (2) `DB_HOST` `DB_PASS` `DB_USER` `DB_NAME`. Note these environment variables appear
    three times each, as they are used by multiple containers in the service. Also choose an
    appropriate `executionRoleArn`.
-5. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears.
+1. Update the `DJANGO_SECRET_KEY` environment variable wherever it appears.
    We recommend using https://djecrety.ir/ to create a new key.
-6. Create a task definition using this JSON either with ecs-cli, or through a browser.
-7. Create a new service on your cluster using this definition. You may want to route traffic through a load balancer.
+1. Create a task definition using this JSON either with ecs-cli, or through a browser.
+1. Create a new service on your cluster using this definition. You may want to route traffic through a load balancer.
 
 ## Usage
 
