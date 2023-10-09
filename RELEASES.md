@@ -1,5 +1,11 @@
 This details significant and/or breaking changes of the affinda self hosted stack.
 
+## V6.15.0 - 2023-10-09
+
+- The frontend application is now available at /app
+- Extended the timeout for regular cleanup task for expired documents, fixing a  bug where old expired documents were not removed
+- Significantly increased speed of GET /v2/resumes requests
+
 ## V6.1.0 - 2023-06-21
 
 - Updated docs for creating API keys, ensure frontend works to allow these keys to be created
