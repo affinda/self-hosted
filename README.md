@@ -53,7 +53,7 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 1. Run `docker compose pull` and `docker compose up` to pull the containers and start the service.
 1. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
 1. You should now be able to access the admin login page at the IP address of the service (by
-   default, `http://admin.localhost/admin`).
+   default, `http://localhost/admin`).
 
 ### Docker compose on linux instance
 
@@ -77,7 +77,7 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 1. Run `docker compose pull` and `docker compose up` to pull the containers and start the services.
 1. Note that the first time it runs it will take approximately 5 minutes to complete initial database migrations.
 1. You should now be able to access the admin login page at the IP address of the service (by
-   default, `http://admin.localhost/admin`)
+   default, `http://localhost/admin`)
 
 ### Elastic Container Service (ECS)
 
@@ -133,10 +133,10 @@ The initial login credentials are: `admin`, password: `changeme`. Once logged in
 password can also be set with the environment variable `DJANGO_SUPERUSER_PASSWORD`.
 
 Detailed documentation regarding the API can be found at https://docs.affinda.com. The full API spec can be downloaded
-from your service at `http://api.localhost/static/v3/api_spec_with_snippets.json`
-and `http://api.loclhost/static/v2/api_spec_with_snippets.json` for versions `v3` and `v2` respectively.
+from your service at `http://localhost/static/v3/api_spec_with_snippets.json`
+and `http://localhost/static/v2/api_spec_with_snippets.json` for versions `v3` and `v2` respectively.
 
-To get an API key, navigate to `localhost`, login with `admin@affinda.com` and the password you set above, and then
+To get an API key, navigate to `http://localhost/app`, login with `admin@affinda.com` and the password you set above, and then
 navigate to the user settings page by clicking in the top right, then selecting `Create API Key' and generate one, as shown 
 below:
 
@@ -206,11 +206,11 @@ API documentation and links to our other client libraries can be found at https:
 ## Portal
 
 Selfhosted clients can now access the portal web interface as another method of uploading, viewing and managing docs.
-This can be accessed at `http:/app.<your_url>`. The default email is `admin@affinda.com`, and the default password is
+This can be accessed at `http:/<your_url>/app`. The default email is `admin@affinda.com`, and the default password is
 the same as above - `changeme` or whatever was set by `DJANGO_SUPERUSER_PASSWORD`.
 
 Note that creation of workspaces for extractors other than resumes will not function, and any user creation must occur
-through the `admin.<your_url>/admin` interface.
+through the `<your_url>/admin` interface.
 
 ## FAQ's
 
