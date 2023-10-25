@@ -533,7 +533,7 @@
         "command": [
           "curl",
           "--fail",
-          "http://localhost:80/admin"
+          "http://localhost:80/status"
         ],
         "timeout": 3,
         "interval": 15,

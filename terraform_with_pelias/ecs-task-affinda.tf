@@ -566,7 +566,7 @@ resource aws_ecs_task_definition affinda {
         "command": [
             "curl",
             "--fail",
-            "http://localhost:80/admin"
+            "http://localhost:80/status"
         ],
         "interval": 15,
         "timeout": 3,
