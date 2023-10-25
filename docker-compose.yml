@@ -16,36 +16,49 @@ services:
   # Local dev containers
   text_extraction:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:latest
-    ports:
-      - "${TEXT_EXTRACTION_PORT:-5010}:${TEXT_EXTRACTION_PORT:-5010}"
+    expose:
+      - "${TEXT_EXTRACTION_PORT:-5010}"
+    deploy:
+      replicas: 3
     environment:
       SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      NUM_WORKERS: "1"
 
   ocr:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/ocr:latest
-    ports:
-      - "${OCR_PORT:-5011}:${OCR_PORT:-5011}"
+    expose:
+      - "${OCR_PORT:-5011}"
+    deploy:
+      replicas: 2 # Increase this if you convert a lot of images
     environment:
       SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       OCR_PORT: "${OCR_PORT:-5011}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      NUM_WORKERS: "1"
+
 
   pdfkit:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdfkit:latest
-    ports:
-      - "${PDFKIT_PORT:-5012}:${PDFKIT_PORT:-5012}"
+    expose:
+      - "${PDFKIT_PORT:-5012}"
+    deploy:
+      replicas: 1 # Increase if you convert a lot html files
     environment:
       SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      NUM_WORKERS: "1"
+
 
   libre_office:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/libre_office:latest
     hostname: libreoffice
-    ports:
-      - "${LIBRE_OFFICE_PORT:-5013}:${LIBRE_OFFICE_PORT:-5013}"
+    expose:
+      - "${LIBRE_OFFICE_PORT:-5013}"
+    deploy:
+      replicas: 2 # Increase this if you convert a lot of docx files
     environment:
       LIBRE_OFFICE_PORT: "${LIBRE_OFFICE_PORT:-5013}"
 
@@ -71,6 +84,7 @@ services:
       start_period: 600s # 20 minutes, because we have to load all the models above
 
     deploy:
+      # Remove the below to run on CPU only
       resources:
         reservations:
           devices:
