@@ -112,6 +112,10 @@
           "value": "selfhosted"
         },
         {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
+        },
+        {
           "name": "USE_ELASTICSEARCH",
           "value": "0"
         }
@@ -179,7 +183,16 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [],
+      "environment": [
+        {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
+        },
+        {
+          "name": "SENTRY_ENVIRONMENT",
+          "value": "ocr-selfhosted"
+        }
+      ],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": [],
@@ -325,6 +338,10 @@
         {
           "name": "SENTRY_ENVIRONMENT",
           "value": "selfhosted"
+        },
+        {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
         },
         {
           "name": "USE_ELASTICSEARCH",
@@ -480,6 +497,10 @@
           "value": "selfhosted"
         },
         {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
+        },
+        {
           "name": "USE_ELASTICSEARCH",
           "value": "0"
         }
@@ -573,7 +594,16 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [],
+      "environment": [
+        {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
+        },
+        {
+          "name": "SENTRY_ENVIRONMENT",
+          "value": "text_extraction-selfhosted"
+        }
+      ],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": [],
@@ -629,7 +659,16 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [],
+      "environment": [
+                {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
+        },
+        {
+          "name": "SENTRY_ENVIRONMENT",
+          "value": "pdfkit-selfhosted"
+        }
+      ],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": [],
@@ -697,7 +736,11 @@
         },
         {
           "name": "SENTRY_ENVIRONMENT",
-          "value": "inference_container_selfhosted"
+          "value": "inference-selfhosted"
+        },
+        {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
         },
         {
           "name": "TS_INFERENCE_ADDRESS",

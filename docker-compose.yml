@@ -21,10 +21,11 @@ services:
     deploy:
       replicas: 3
     environment:
-      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
-      TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
-      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       NUM_WORKERS: "1"
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
+      SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-text_extraction-selfhosted}"
+      TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
 
   ocr:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/ocr:latest
@@ -33,10 +34,11 @@ services:
     deploy:
       replicas: 2 # Increase this if you convert a lot of images
     environment:
-      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
+      NUM_WORKERS: "1"
       OCR_PORT: "${OCR_PORT:-5011}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
-      NUM_WORKERS: "1"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
+      SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-ocr-selfhosted}"
 
 
   pdfkit:
@@ -46,10 +48,11 @@ services:
     deploy:
       replicas: 1 # Increase if you convert a lot html files
     environment:
-      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
+      NUM_WORKERS: "1"
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
-      NUM_WORKERS: "1"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
+      SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-pdfkit-selfhosted}"
 
 
   libre_office:
@@ -69,10 +72,11 @@ services:
       - "${TORCHSERVE_INFERENCE_PORT:-5014}:${TORCHSERVE_INFERENCE_PORT:-5014}"
       - "${TORCHSERVE_MANAGEMENT_PORT:-5015}:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
     environment:
+      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
+      SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-inference-selfhosted}"
       TS_INFERENCE_ADDRESS: "http://0.0.0.0:${TORCHSERVE_INFERENCE_PORT:-5014}"
       TS_MANAGEMENT_ADDRESS: "http://0.0.0.0:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
-      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
-      SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       TS_MODEL_CONFIG: >-  # Won't append newlines or add newlines in string
         {
         "headshot":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},

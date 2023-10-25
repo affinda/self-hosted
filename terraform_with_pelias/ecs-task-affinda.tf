@@ -1,14 +1,11 @@
-
-
-
 resource aws_ecs_service affinda {
-  name            = "${var.Environment}-affinda"
-  cluster         = aws_ecs_cluster.affinda.id
-  desired_count   = 1
-  task_definition = aws_ecs_task_definition.affinda.arn
+  name                               = "${var.Environment}-affinda"
+  cluster                            = aws_ecs_cluster.affinda.id
+  desired_count                      = 1
+  task_definition                    = aws_ecs_task_definition.affinda.arn
   deployment_minimum_healthy_percent = 0
   deployment_maximum_percent         = 100
-  
+
 }
 
 resource aws_ecs_task_definition affinda {
@@ -99,6 +96,10 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "SENTRY_ENVIRONMENT",
             "value": "selfhosted"
+        },
+        {
+            "name": "SENTRY_ENABLED",
+            "value": "0"
         },
         {
             "name": "USE_ELASTICSEARCH",
@@ -200,7 +201,16 @@ resource aws_ecs_task_definition affinda {
         }
     ],
     "essential": true,
-    "environment": [],
+    "environment": [
+        {
+            "name": "SENTRY_ENVIRONMENT",
+            "value": "ocr-selfhosted"
+        },
+        {
+            "name": "SENTRY_ENABLED",
+            "value": "0"
+        }
+    ],
     "mountPoints": [],
     "volumesFrom": [],
     "logConfiguration": {
@@ -305,6 +315,10 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "SENTRY_ENVIRONMENT",
             "value": "selfhosted"
+        },
+        {
+            "name": "SENTRY_ENABLED",
+            "value": "0"
         },
         {
             "name": "USE_ELASTICSEARCH",
@@ -468,6 +482,10 @@ resource aws_ecs_task_definition affinda {
             "value": "selfhosted"
         },
         {
+            "name": "SENTRY_ENABLED",
+            "value": "0"
+        },
+        {
             "name": "USE_ELASTICSEARCH",
             "value": "0"
         },
@@ -586,7 +604,16 @@ resource aws_ecs_task_definition affinda {
         }
     ],
     "essential": true,
-    "environment": [],
+    "environment": [
+        {
+            "name": "SENTRY_ENVIRONMENT",
+            "value": "text_extraction-selfhosted"
+        },
+        {
+            "name": "SENTRY_ENABLED",
+            "value": "0"
+        }
+    ],
     "mountPoints": [],
     "volumesFrom": [],
     "logConfiguration": {
@@ -621,7 +648,16 @@ resource aws_ecs_task_definition affinda {
         }
     ],
     "essential": true,
-    "environment": [],
+    "environment": [
+        {
+            "name": "SENTRY_ENVIRONMENT",
+            "value": "pdfkit-selfhosted"
+        },
+        {
+            "name": "SENTRY_ENABLED",
+            "value": "0"
+        }
+    ],
     "mountPoints": [],
     "volumesFrom": [],
     "logConfiguration": {
@@ -676,7 +712,11 @@ resource aws_ecs_task_definition affinda {
         },
         {
             "name": "SENTRY_ENVIRONMENT",
-            "value": "inference_container_selfhosted"
+            "value": "inference-selfhosted"
+        },
+        {
+            "name": "SENTRY_ENABLED",
+            "value": "0"
         },
         {
             "name": "TS_INFERENCE_ADDRESS",
@@ -787,8 +827,8 @@ TASK_DEFINITION
 
   requires_compatibilities = ["EC2"]
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
-  volume  {
-    name = "affinda_shared"
+  volume {
+    name      = "affinda_shared"
     host_path = "/opt/affinda/shared"
   }
 }
