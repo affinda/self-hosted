@@ -1,4 +1,7 @@
-This details significant and/or breaking changes of the affinda self hosted stack.
+# Changelog
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
 
 ## V6.15.0 - 2023-10-09
 
