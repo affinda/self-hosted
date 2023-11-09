@@ -28,10 +28,6 @@
           "value": "INFO"
         },
         {
-          "name": "CELERY_QUEUES",
-          "value": "priority_1,priority_2,priority_3,priority_4"
-        },
-        {
           "name": "DB_HOST",
           "value": ""
         },
@@ -254,10 +250,6 @@
         {
           "name": "CELERY_DEBUG_LEVEL",
           "value": "INFO"
-        },
-        {
-          "name": "CELERY_QUEUES",
-          "value": "priority_1,priority_2,priority_3,priority_4"
         },
         {
           "name": "DB_HOST",

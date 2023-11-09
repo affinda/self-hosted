@@ -130,10 +130,6 @@ resource aws_ecs_task_definition affinda {
             "value": "${var.db_pass}"
         },
         {
-            "name": "CELERY_QUEUES",
-            "value": "priority_1,priority_2,priority_3,priority_4"
-        },
-        {
             "name": "TORCHSERVE_HOST",
             "value": "inference"
         },
@@ -347,10 +343,6 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "DB_PASS",
             "value": "${var.db_pass}"
-        },
-        {
-            "name": "CELERY_QUEUES",
-            "value": "priority_1,priority_2,priority_3,priority_4"
         },
         {
             "name": "TORCHSERVE_HOST",
