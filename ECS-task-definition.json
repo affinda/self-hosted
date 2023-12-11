@@ -44,6 +44,10 @@
           "value": ""
         },
         {
+          "name": "DB_LOCAL_CONNECTION_POOLING",
+          "value": "1"
+        },
+        {
           "name": "DJANGO_SECRET_KEY",
           "value": "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
         },
@@ -268,6 +272,10 @@
           "value": ""
         },
         {
+          "name": "DB_LOCAL_CONNECTION_POOLING",
+          "value": "1"
+        },
+        {
           "name": "DJANGO_SECRET_KEY",
           "value": "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
         },
@@ -423,6 +431,10 @@
         {
           "name": "DB_USER",
           "value": ""
+        },
+        {
+          "name": "DB_LOCAL_CONNECTION_POOLING",
+          "value": "1"
         },
         {
           "name": "DISABLE_API_AUTHENTICATION",
