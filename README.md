@@ -236,3 +236,19 @@ See additional required container and environment variables in `docker-compose-p
 
 This can be run with docker compose
 with `docker compose --file docker-compose.yml --file docker-compose-pelias-overrides.yml up`
+
+### How do I enable database connection pooling?
+
+When the stack comes under heavy load, you may get errors like
+
+```
+FATAL: sorry, too many clients already
+```
+
+The issue is likely that the app is attempting to form more connections than the stack's database can support.
+This is mitigated by enabling __database connection pooling__.
+Connection pooling is controlled by the `DB_LOCAL_CONNECTION_POOLING` environment variable on the `celery_worker` and `web` containers.
+Set it to `1` to enable connection pooling.
+
+Database connection pooling is now enabled by default in all of the published configurations.
+You can refer to the relevant configuration for your deployment method for an example of the correct configuration.
