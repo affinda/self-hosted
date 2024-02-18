@@ -38,10 +38,6 @@ resource aws_ecs_task_definition affinda {
             "value": "5012"
         },
         {
-            "name": "PATH",
-            "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-        },
-        {
             "name": "APPS_MODE",
             "value": "CELERY_WORKER"
         },
@@ -241,10 +237,6 @@ resource aws_ecs_task_definition affinda {
             "value": "5012"
         },
         {
-            "name": "PATH",
-            "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-        },
-        {
             "name": "APPS_MODE",
             "value": "CELERY_BEAT"
         },
@@ -404,10 +396,6 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "PDFKIT_PORT",
             "value": "5012"
-        },
-        {
-            "name": "PATH",
-            "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
         },
         {
             "name": "APPS_MODE",

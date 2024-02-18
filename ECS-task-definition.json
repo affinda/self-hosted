@@ -88,10 +88,6 @@
           "value": "/opt/affinda"
         },
         {
-          "name": "PATH",
-          "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-        },
-        {
           "name": "PRELOAD_SMALL_MODELS",
           "value": "True"
         },
@@ -316,10 +312,6 @@
           "value": "/opt/affinda"
         },
         {
-          "name": "PATH",
-          "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-        },
-        {
           "name": "PRELOAD_SMALL_MODELS",
           "value": "True"
         },
@@ -479,10 +471,6 @@
         {
           "name": "HOME",
           "value": "/opt/affinda"
-        },
-        {
-          "name": "PATH",
-          "value": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
         },
         {
           "name": "PYTHONUNBUFFERED",
