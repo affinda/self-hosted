@@ -42,6 +42,10 @@ resource aws_ecs_task_definition affinda {
             "value": "CELERY_WORKER"
         },
         {
+            "name": "CELERY_POOL_TYPE",
+            "value": "prefork"
+        },
+        {
             "name": "OCR_HOST",
             "value": "ocr"
         },

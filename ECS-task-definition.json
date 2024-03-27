@@ -20,6 +20,10 @@
           "value": "CELERY_WORKER"
         },
         {
+          "name": "CELERY_POOL_TYPE",
+          "value": "prefork"
+        },
+        {
           "name": "C_FORCE_ROOT",
           "value": "1"
         },
