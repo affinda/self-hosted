@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.29.72] - 2024-03-28
+### Added
+- Enum detail popover. Hover the information icon to see and copy value details
+- New framework for managing taxonomies.  In the field editor dialogue you can now choose between available taxonomies
+- Add types for search tool theme config
+- for a given field.  New taxonomies can be added via the API or the field editor.
+- First release of collection-level validation rules
+
+### Changed
+- Ability to change the datatype of a field after creation.
+- Requesting tailored models is now only available for collections in the AP category
+- Custom field creation UI visibility can be controlled at an organisational level
+- Deprecate `Field.showDropdown`. A dropdown will now automatically be shown for enum fields and text fields with a `dataSource`.
+
+### Fixed
+- Fix showing zero as empty in integer and float inputs
+- Fixed being able to add fields to tables when custom fields are disabled
+- Fixed rectless annotations should inherit the pageIndex of their parent if they have one
+
 ## [6.21.10] - 2023-11-15
 ### Added
 - Show organization ID in settings

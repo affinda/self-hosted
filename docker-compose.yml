@@ -171,7 +171,7 @@ services:
       - affinda_shared:/opt/shared/
 
   celery_worker:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.24.14
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.29.72
     environment:
       APPS_MODE: "CELERY_WORKER"
       CELERY_POOL_TYPE: "prefork"
