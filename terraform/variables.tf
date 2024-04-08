@@ -87,3 +87,6 @@ variable libreoffice_image {
 variable redis_image {
   default = "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:6.29.72"
 }
+variable opensearch_image {
+  default = "opensearchproject/opensearch:2.8.0"
+}

@@ -3,6 +3,8 @@ version: "3.8"
 volumes: # Note these will be prefixed by affinda_ when created by docker compose
   pgdata_selfhosted:
   affinda_shared:
+  opensearch-data:
+
 
 networks:
   default:
@@ -77,12 +79,13 @@ services:
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-inference-selfhosted}"
       TS_INFERENCE_ADDRESS: "http://0.0.0.0:${TORCHSERVE_INFERENCE_PORT:-5014}"
       TS_MANAGEMENT_ADDRESS: "http://0.0.0.0:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
-      TS_MODEL_CONFIG: >-  # Won't append newlines or add newlines in string
+      TS_MODEL_CONFIG: >-  # Adjust to your needs
         {
         "headshot":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
-        "resume":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resume":{"1.0":{"defaultVersion":true,"minWorkers":2,"maxWorkers":2}},
         "resume_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
         }
+      ENABLE_API_PROXY: "1"
     healthcheck:
       # Will still use other defaults from inference.Dockerfile
       start_period: 600s # 20 minutes, because we have to load all the models above
@@ -153,9 +156,11 @@ services:
       DB_SSL_MODE: disable
       DB_USER: postgres
       REDIS_PORT: "6379"
-      USE_ELASTICSEARCH: "0"
+      USE_ELASTICSEARCH: "1"
+      ELASTICSEARCH_HOST: "opensearch"
       CELERY_TASK_SOFT_TIME_LIMIT: "${CELERY_TASK_SOFT_TIME_LIMIT:-60}"
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
+      AUTO_REGISTER_MODELS: "1"
     healthcheck:
       test: "curl --fail http://localhost:80/status || exit 1"
       interval: 5s
@@ -167,6 +172,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      opensearch:
+        condition: service_healthy
     volumes:
       - affinda_shared:/opt/shared/
 
@@ -175,6 +182,7 @@ services:
     environment:
       APPS_MODE: "CELERY_WORKER"
       CELERY_POOL_TYPE: "prefork"
+      CELERY_WORKER_CONCURRENCY: "3"
       SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
@@ -202,9 +210,11 @@ services:
       DB_SSL_MODE: disable
       DB_USER: postgres
       REDIS_PORT: "6379"
-      USE_ELASTICSEARCH: "0"
+      USE_ELASTICSEARCH: "1"
+      ELASTICSEARCH_HOST: "opensearch"
       CELERY_TASK_SOFT_TIME_LIMIT: "${CELERY_TASK_SOFT_TIME_LIMIT:-60}"
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
+      AUTO_REGISTER_MODELS: "1"
     deploy:
       replicas: 1
     volumes:
@@ -226,11 +236,15 @@ services:
         condition: service_healthy
       inference:
         condition: service_healthy
+      opensearch:
+        condition: service_healthy
 
   celery_beat:
     image: affinda/affinda-selfhosted:6.29.72
     environment:
       APPS_MODE: "CELERY_BEAT"
+      CELERY_POOL_TYPE: "prefork"
+      CELERY_WORKER_CONCURRENCY: "1"
       SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
@@ -258,7 +272,8 @@ services:
       DB_SSL_MODE: disable
       DB_USER: postgres
       REDIS_PORT: "6379"
-      USE_ELASTICSEARCH: "0"
+      USE_ELASTICSEARCH: "1"
+      ELASTICSEARCH_HOST: "opensearch"
     deploy:
       replicas: 1
     volumes:
@@ -280,3 +295,35 @@ services:
         condition: service_healthy
       inference:
         condition: service_healthy
+      opensearch:
+        condition: service_healthy
+
+  opensearch:
+    image: opensearchproject/opensearch:2.8.0
+    environment:
+      discovery.type: "single-node"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, should be half of mem_limit
+      plugins.security.disabled: "true"
+      bootstrap.memory_lock: "true" # along with the memlock settings below, disables swapping
+      cluster.routing.allocation.disk.threshold_enabled: "false" # disables low disk watermark
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536 # maximum number of open files for the OpenSearch user, set to at least 65536 on modern systems
+        hard: 65536
+    ports:
+      - "9200:9200"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    healthcheck:
+      test: "curl --fail 127.0.0.1:9200 || exit 1"
+      interval: 5s
+      timeout: 20s
+      retries: 10
+      start_period: 120s

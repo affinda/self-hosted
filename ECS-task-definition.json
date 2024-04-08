@@ -24,6 +24,10 @@
           "value": "prefork"
         },
         {
+          "name": "CELERY_WORKER_CONCURRENCY",
+          "value": "3"
+        },
+        {
           "name": "C_FORCE_ROOT",
           "value": "1"
         },
@@ -117,7 +121,11 @@
         },
         {
           "name": "USE_ELASTICSEARCH",
-          "value": "0"
+          "value": "1"
+        },
+        {
+          "name": "ELASTICSEARCH_HOST",
+          "value": "opensearch"
         }
       ],
       "resourceRequirements": null,
@@ -143,6 +151,10 @@
       "dependsOn": [
         {
           "containerName": "web",
+          "condition": "HEALTHY"
+        },
+        {
+          "containerName": "opensearch",
           "condition": "HEALTHY"
         }
       ],
@@ -341,7 +353,19 @@
         },
         {
           "name": "USE_ELASTICSEARCH",
-          "value": "0"
+          "value": "1"
+        },
+        {
+          "name": "ELASTICSEARCH_HOST",
+          "value": "opensearch"
+        },
+        {
+          "name": "CELERY_POOL_TYPE",
+          "value": "prefork"
+        },
+        {
+          "name": "CELERY_WORKER_CONCURRENCY",
+          "value": "1"
         }
       ],
       "resourceRequirements": null,
@@ -498,7 +522,11 @@
         },
         {
           "name": "USE_ELASTICSEARCH",
-          "value": "0"
+          "value": "1"
+        },
+        {
+          "name": "ELASTICSEARCH_HOST",
+          "value": "opensearch"
         }
       ],
       "resourceRequirements": null,
@@ -540,6 +568,10 @@
         },
         {
           "containerName": "libreoffice",
+          "condition": "HEALTHY"
+        },
+        {
+          "containerName": "opensearch",
           "condition": "HEALTHY"
         }
       ],
@@ -656,7 +688,7 @@
       "linuxParameters": null,
       "cpu": 0,
       "environment": [
-                {
+        {
           "name": "SENTRY_ENABLED",
           "value": "0"
         },
@@ -749,6 +781,10 @@
         {
           "name": "TS_MODEL_CONFIG",
           "value": "{\"headshot\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resume\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}},\"resume_multi\":{\"1.0\":{\"defaultVersion\":true,\"minWorkers\":1,\"maxWorkers\":1}}}"
+        },
+        {
+          "name": "ENABLE_API_PROXY",
+          "value": "1"
         }
       ],
       "resourceRequirements": [
@@ -869,13 +905,22 @@
       "cpu": 0,
       "environment": [],
       "resourceRequirements": null,
-      "ulimits": null,
+      "ulimits": {
+        "nofile": {
+          "hardLimit": 65536,
+          "softLimit": 65536
+        },
+        "memlock": {
+          "hardLimit": -1,
+          "softLimit": -1
+        }
+      },
       "dnsServers": [],
       "mountPoints": [],
       "workingDirectory": null,
       "secrets": null,
       "dockerSecurityOptions": [],
-      "memory": null,
+      "memory": 2048,
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
@@ -906,6 +951,89 @@
       "systemControls": [],
       "privileged": null,
       "name": "redis"
+    },
+    {
+      "dnsSearchDomains": [],
+      "environmentFiles": null,
+      "logConfiguration": null,
+      "entryPoint": [],
+      "portMappings": [
+        {
+          "hostPort": 9200,
+          "protocol": "tcp",
+          "containerPort": 9200
+        }
+      ],
+      "command": [],
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "discovery.type",
+          "value": "single-node"
+        },
+        {
+          "name": "OPENSEARCH_JAVA_OPTS",
+          "value": "-Xms512m -Xmx512m"
+        },
+        {
+          "name": "plugins.security.disabled",
+          "value": "true"
+        },
+        {
+          "name": "bootstrap.memory_lock",
+          "value": "true"
+        },
+        {
+          "name": "cluster.routing.allocation.disk.threshold_enabled",
+          "value": "false"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": [],
+      "mountPoints": [
+        {
+          "readOnly": false,
+          "containerPath": "/usr/share/opensearch/data",
+          "sourceVolume": "opensearch-data"
+        }
+      ],
+      "workingDirectory": null,
+      "secrets": null,
+      "dockerSecurityOptions": [],
+      "memory": null,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "opensearchproject/opensearch:2.8.0",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": {
+        "retries": 10,
+        "command": [
+          "curl",
+          "--fail",
+          "127.0.0.1:9200"
+        ],
+        "timeout": 20,
+        "interval": 5,
+        "startPeriod": 120
+      },
+      "essential": true,
+      "links": [],
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": [],
+      "privileged": null,
+      "name": "opensearch"
     }
   ],
   "placementConstraints": [],
@@ -938,6 +1066,19 @@
       "fsxWindowsFileServerVolumeConfiguration": null,
       "efsVolumeConfiguration": null,
       "name": "affinda_shared",
+      "host": null,
+      "dockerVolumeConfiguration": {
+        "autoprovision": true,
+        "labels": null,
+        "scope": "shared",
+        "driver": "local",
+        "driverOpts": null
+      }
+    },
+    {
+      "fsxWindowsFileServerVolumeConfiguration": null,
+      "efsVolumeConfiguration": null,
+      "name": "opensearch-data",
       "host": null,
       "dockerVolumeConfiguration": {
         "autoprovision": true,

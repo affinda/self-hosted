@@ -136,14 +136,15 @@ Detailed documentation regarding the API can be found at https://docs.affinda.co
 from your service at `http://localhost/static/v3/api_spec_with_snippets.json`
 and `http://localhost/static/v2/api_spec_with_snippets.json` for versions `v3` and `v2` respectively.
 
-To get an API key, navigate to `http://localhost/app`, login with `admin@affinda.com` and the password you set above, and then
-navigate to the user settings page by clicking in the top right, then selecting `Create API Key' and generate one, as shown 
+To get an API key, navigate to `http://localhost/app`, login with `admin@affinda.com` and the password you set above,
+and then
+navigate to the user settings page by clicking in the top right, then selecting `Create API Key' and generate one, as
+shown
 below:
 
 ![API key generation1](docs/img/api_key_generation1.png)
 
 ![API key generation2](docs/img/api_key_generation2.png)
-
 
 We recommend using our client libraries to call the API. For example, our python client library can be installed
 with `pip install "affinda<4.0.0"`, and called as follows:
@@ -247,8 +248,29 @@ FATAL: sorry, too many clients already
 
 The issue is likely that the app is attempting to form more connections than the stack's database can support.
 This is mitigated by enabling __database connection pooling__.
-Connection pooling is controlled by the `DB_LOCAL_CONNECTION_POOLING` environment variable on the `celery_worker` and `web` containers.
+Connection pooling is controlled by the `DB_LOCAL_CONNECTION_POOLING` environment variable on the `celery_worker`
+and `web` containers.
 Set it to `1` to enable connection pooling.
 
 Database connection pooling is now enabled by default in all of the published configurations.
 You can refer to the relevant configuration for your deployment method for an example of the correct configuration.
+
+### How do I use the Resumes NextGen parser?
+
+- Navigate to the app at /app
+- Create a new Workspace:
+
+![img.png](docs/img/create_workspace.png)
+
+- Select the Resumes Next Gen extractor:
+
+![img.png](docs/img/select_extractor.png)
+
+- Select the Collection:
+
+![img.png](docs/img/select_collection.png)
+
+- You can now view the collection id in the URL, or by clicking on the settings icon at the top, which can then be
+  passed into the API for document parsing.
+- See the [API documentation](https://docs.affinda.com) for more information on how to use the API. **Note that use of
+  this extractor requires the use of v3 of the API**

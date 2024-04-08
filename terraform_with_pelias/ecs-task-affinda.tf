@@ -46,6 +46,10 @@ resource aws_ecs_task_definition affinda {
             "value": "prefork"
         },
         {
+            "name": "CELERY_WORKER_CONCURRENCY",
+            "value": "3"
+        },
+        {
             "name": "OCR_HOST",
             "value": "ocr"
         },
@@ -103,7 +107,7 @@ resource aws_ecs_task_definition affinda {
         },
         {
             "name": "USE_ELASTICSEARCH",
-            "value": "0"
+            "value": "1"
         },
         {
             "name": "DJANGO_SETTINGS_MODULE",
@@ -160,6 +164,14 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "DB_LOCAL_CONNECTION_POOLING",
             "value": "1"
+        },
+        {
+              "name": "ELASTICSEARCH_HOST",
+              "value": "opensearch"
+        },
+        {
+              "name": "AUTO_REGISTER_MODELS",
+              "value": "1"
         }
     ],
     "mountPoints": [
@@ -173,6 +185,10 @@ resource aws_ecs_task_definition affinda {
     "dependsOn": [
         {
             "containerName": "web",
+            "condition": "HEALTHY"
+        },
+        {
+            "containerName": "opensearch",
             "condition": "HEALTHY"
         }
     ],
@@ -314,7 +330,7 @@ resource aws_ecs_task_definition affinda {
         },
         {
             "name": "USE_ELASTICSEARCH",
-            "value": "0"
+            "value": "1"
         },
         {
             "name": "DJANGO_SETTINGS_MODULE",
@@ -359,6 +375,22 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "DB_LOCAL_CONNECTION_POOLING",
             "value": "1"
+        },
+        {
+              "name": "ELASTICSEARCH_HOST",
+              "value": "opensearch"
+        },
+        {
+              "name": "AUTO_REGISTER_MODELS",
+              "value": "1"
+        },
+        {
+            "name": "CELERY_POOL_TYPE",
+            "value": "prefork"
+        },
+        {
+            "name": "CELERY_WORKER_CONCURRENCY",
+            "value": "1"
         }
     ],
     "mountPoints": [
@@ -373,7 +405,12 @@ resource aws_ecs_task_definition affinda {
         {
             "containerName": "web",
             "condition": "HEALTHY"
+        },
+        {
+              "containerName": "opensearch",
+              "condition": "HEALTHY"
         }
+
     ],
     "logConfiguration": {
         "logDriver": "awslogs",
@@ -471,7 +508,7 @@ resource aws_ecs_task_definition affinda {
         },
         {
             "name": "USE_ELASTICSEARCH",
-            "value": "0"
+            "value": "1"
         },
         {
             "name": "DJANGO_SETTINGS_MODULE",
@@ -524,6 +561,14 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "DB_LOCAL_CONNECTION_POOLING",
             "value": "1"
+        },
+        {
+              "name": "ELASTICSEARCH_HOST",
+              "value": "opensearch"
+        },
+        {
+            "name": "AUTO_REGISTER_MODELS",
+            "value": "1"
         }
     ],
     "mountPoints": [
@@ -554,7 +599,12 @@ resource aws_ecs_task_definition affinda {
         {
             "containerName": "libreoffice",
             "condition": "HEALTHY"
+        },
+        {
+            "containerName": "opensearch",
+            "condition": "HEALTHY"
         }
+
     ],
     "logConfiguration": {
         "logDriver": "awslogs",
@@ -705,6 +755,10 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "TS_INFERENCE_ADDRESS",
             "value": "http://0.0.0.0:5014"
+        },
+        {
+            "name": "ENABLE_API_PROXY",
+            "value": "1"
         }
     ],
     "mountPoints": [],
@@ -805,6 +859,70 @@ resource aws_ecs_task_definition affinda {
         "retries": 10,
         "startPeriod": 5
     }
+},
+{
+    "name": "opensearch",
+    "image": "${var.opensearch_image}",
+    "cpu": 0,
+    "portMappings": [
+        {
+            "containerPort": 9200,
+            "hostPort": 9200,
+            "protocol": "tcp"
+        }
+    ],
+    "essential": true,
+    "environment": [
+      {
+        "name": "discovery.type",
+        "value": "single-node"
+      },
+      {
+        "name": "OPENSEARCH_JAVA_OPTS",
+        "value": "-Xms512m -Xmx512m"
+      },
+      {
+        "name": "plugins.security.disabled",
+        "value": "true"
+      },
+      {
+        "name": "bootstrap.memory_lock",
+        "value": "true"
+      },
+      {
+        "name": "cluster.routing.allocation.disk.threshold_enabled",
+        "value": "false"
+      }
+
+
+    ],
+    "mountPoints": [
+        {
+            "sourceVolume": "opensearch-data",
+            "containerPath": "/usr/share/opensearch/data",
+            "readOnly": false
+        }
+    ],
+    "volumesFrom": [],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${aws_cloudwatch_log_group.affinda.name}",
+            "awslogs-region": "${var.region}",
+            "awslogs-stream-prefix": "affinda_elasticsearch"
+        }
+    },
+    "healthCheck": {
+        "command": [
+            "curl",
+            "--fail",
+            "127.0.0.1:9200",
+        ],
+        "interval": 5,
+        "timeout": 3,
+        "retries": 10,
+        "startPeriod": 120
+    }
 }
 ]
 TASK_DEFINITION
@@ -814,6 +932,9 @@ TASK_DEFINITION
   volume {
     name      = "affinda_shared"
     host_path = "/opt/affinda/shared"
+  },
+  volume {
+    name = "opensearch-data"
   }
 }
 
