@@ -79,11 +79,13 @@ services:
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-inference-selfhosted}"
       TS_INFERENCE_ADDRESS: "http://0.0.0.0:${TORCHSERVE_INFERENCE_PORT:-5014}"
       TS_MANAGEMENT_ADDRESS: "http://0.0.0.0:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
-      TS_MODEL_CONFIG: >-  # Adjust to your needs
+      TS_MODEL_CONFIG: >-  # Adjust to your needs, remove resume and resume_multi if using v4 models
         {
         "headshot":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
-        "resume":{"1.0":{"defaultVersion":true,"minWorkers":2,"maxWorkers":2}},
-        "resume_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
+        "resume":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resume_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resume-v4_en":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
+        "resume-v4_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
         }
       ENABLE_API_PROXY: "1"
     healthcheck:
