@@ -132,7 +132,7 @@ services:
       - "${HOST_PORT:-80}:80"
     environment:
       APPS_MODE: "WEB_SELFHOSTED"
-      SENTRY_ENABLED: "0"
+      SENTRY_ENABLED: "${SENTRY_ENABLED:-0}"
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       DJANGO_SECRET_KEY: "5TS1pUeIwzdPlpPunaEGiMyznTPWEH0nwwMHNg78kSb111BlqK9Juh123456789X"
       DJANGO_SETTINGS_MODULE: "config.settings.selfhosted"
