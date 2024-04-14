@@ -274,3 +274,4 @@ You can refer to the relevant configuration for your deployment method for an ex
   passed into the API for document parsing.
 - See the [API documentation](https://docs.affinda.com) for more information on how to use the API. **Note that use of
   this extractor requires the use of v3 of the API**
+- Note to decrease parse times, please set enableValidationTool to False in the body of your document creation requests. See instructions at the bottom of [this page](https://docs.affinda.com/docs/uploading-documents-via-the-api#request-body)
