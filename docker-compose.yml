@@ -98,6 +98,9 @@ services:
             - driver: nvidia
               count: all
               capabilities: [ gpu, utility, compute ]
+    depends_on:
+      web:
+        condition: service_healthy
 
   db:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-db:6.29.72
