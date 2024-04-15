@@ -5,9 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [6.30.3] - 2024-04-15
 ### Added
-- Added support for custom extractors including resume-v4 Next Gen
 - Added dependency on opensearch service
+- Added support for resume-v4 (NextGen) in selfhosted
+- Added support for custom extractors including resume-v4 Next Gen
 
 ### Changed
 - Changed default CELERY_WORKER_CONCURRENCY to 3 for celery workers, 1 for celery beat
