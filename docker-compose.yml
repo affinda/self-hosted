@@ -110,9 +110,7 @@ services:
       POSTGRES_DB: affinda
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_PORT: "${DB_PORT:-5432}"
-    command:
-      - "-p ${DB_PORT:-5432}"
+      POSTGRES_PORT_NUMBER: "${DB_PORT:-5432}"
     healthcheck:
       test: "pg_isready -q -d affinda -U postgres --port ${DB_PORT:-5432}"
       interval: 2s
