@@ -3,10 +3,12 @@ services:
   web:
     environment:
       ENABLE_GEOCODING: "1"
+      GEOCODING_SERVICE_OVERRIDE: "PELIAS"
 
   celery_worker:
     environment:
       ENABLE_GEOCODING: "1"
+      GEOCODING_SERVICE_OVERRIDE: "PELIAS"
 
   pelias_elasticsearch:
     image: "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pelias_elasticsearch:latest"
