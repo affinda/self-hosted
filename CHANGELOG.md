@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [6.33.45] - 2024-06-22
 ### Added
 - Add pdf2html service
+- Added support for arbitarily nested validation rule sources across multiple datapoints
+- reading order image
+
+### Changed
+- garbage detector thresholds
 
 ## [6.31.92] - 2024-06-03
 ### Fixed
