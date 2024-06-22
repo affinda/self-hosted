@@ -80,6 +80,10 @@
           "value": "pdfkit"
         },
         {
+          "name": "PDF2HTML_HOST",
+          "value": "pdf2html"
+        },
+        {
           "name": "TEXT_EXTRACTION_HOST",
           "value": "text_extraction"
         },
@@ -175,6 +179,7 @@
         "ocr:ocr",
         "libreoffice:libreoffice",
         "pdfkit:pdfkit",
+        "pdf2html:pdf2html",
         "redis:redis",
         "text_extraction:text_extraction",
         "inference:inference"
@@ -312,6 +317,10 @@
           "value": "pdfkit"
         },
         {
+          "name": "PDF2HTML_HOST",
+          "value": "pdf2html"
+        },
+        {
           "name": "TEXT_EXTRACTION_HOST",
           "value": "text_extraction"
         },
@@ -402,6 +411,7 @@
         "ocr:ocr",
         "libreoffice:libreoffice",
         "pdfkit:pdfkit",
+        "pdf2html:pdf2html",
         "redis:redis",
         "text_extraction:text_extraction",
         "inference:inference"
@@ -483,6 +493,10 @@
         {
           "name": "PDFKIT_HOST",
           "value": "pdfkit"
+        },
+        {
+          "name": "PDF2HTML_HOST",
+          "value": "pdf2html"
         },
         {
           "name": "TEXT_EXTRACTION_HOST",
@@ -567,6 +581,10 @@
           "condition": "HEALTHY"
         },
         {
+          "containerName": "pdf2html",
+          "condition": "HEALTHY"
+        },
+        {
           "containerName": "libreoffice",
           "condition": "HEALTHY"
         },
@@ -593,6 +611,7 @@
         "ocr:ocr",
         "libreoffice:libreoffice",
         "pdfkit:pdfkit",
+        "pdf2html:pdf2html",
         "redis:redis",
         "text_extraction:text_extraction",
         "inference:inference"
@@ -736,6 +755,71 @@
       "systemControls": [],
       "privileged": null,
       "name": "pdfkit"
+    },
+    {
+      "dnsSearchDomains": [],
+      "environmentFiles": null,
+      "logConfiguration": null,
+      "entryPoint": [],
+      "portMappings": [
+        {
+          "hostPort": 5018,
+          "protocol": "tcp",
+          "containerPort": 5018
+        }
+      ],
+      "command": [],
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "SENTRY_ENABLED",
+          "value": "0"
+        },
+        {
+          "name": "SENTRY_ENVIRONMENT",
+          "value": "pdf2html-selfhosted"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": [],
+      "mountPoints": [],
+      "workingDirectory": null,
+      "secrets": null,
+      "dockerSecurityOptions": [],
+      "memory": null,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdf2html:6.31.92",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": {
+        "retries": 10,
+        "command": [
+          "curl",
+          "--fail",
+          "127.0.0.1:5018"
+        ],
+        "timeout": 3,
+        "interval": 5,
+        "startPeriod": 5
+      },
+      "essential": true,
+      "links": [],
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": [],
+      "privileged": null,
+      "name": "pdf2html"
     },
     {
       "dnsSearchDomains": [],

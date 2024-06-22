@@ -57,6 +57,18 @@ services:
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-pdfkit-selfhosted}"
 
 
+  pdf2html:
+    image: affinda/pdf2html:6.31.92
+    expose:
+      - "${PDF2HTML_PORT:-5018}"
+    deploy:
+      replicas: 1 # Increase if you convert a lot pdf to html files
+    environment:
+      NUM_WORKERS: "1"
+      PDF2HTML_PORT: "${PDF2HTML_PORT:-5018}"
+      SENTRY_ENABLED: "0"
+      SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-pdf2html-selfhosted}"
+
   libre_office:
     image: affinda/libre_office:6.31.92
     hostname: libreoffice
@@ -146,6 +158,7 @@ services:
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
       OCR_PORT: "${OCR_PORT:-5011}"
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
+      PDF2HTML_PORT: "${PDF2HTML_PORT:-5018}"
       LIBRE_OFFICE_PORT: "${LIBRE_OFFICE_PORT:-5013}"
       TORCHSERVE_INFERENCE_PORT: "${TORCHSERVE_INFERENCE_PORT:-5014}"
       TORCHSERVE_MANAGEMENT_PORT: "${TORCHSERVE_MANAGEMENT_PORT:-5015}"
@@ -200,6 +213,7 @@ services:
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
       OCR_PORT: "${OCR_PORT:-5011}"
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
+      PDF2HTML_PORT: "${PDF2HTML_PORT:-5018}"
       LIBRE_OFFICE_PORT: "${LIBRE_OFFICE_PORT:-5013}"
       TORCHSERVE_INFERENCE_PORT: "${TORCHSERVE_INFERENCE_PORT:-5014}"
       TORCHSERVE_MANAGEMENT_PORT: "${TORCHSERVE_MANAGEMENT_PORT:-5015}"
@@ -233,6 +247,8 @@ services:
         condition: service_healthy
       pdfkit:
         condition: service_healthy
+      pdf2html:
+        condition: service_healthy
       libre_office:
         condition: service_healthy
       inference:
@@ -262,6 +278,7 @@ services:
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
       OCR_PORT: "${OCR_PORT:-5011}"
       PDFKIT_PORT: "${PDFKIT_PORT:-5012}"
+      PDF2HTML_PORT: "${PDF2HTML_PORT:-5018}"
       LIBRE_OFFICE_PORT: "${LIBRE_OFFICE_PORT:-5013}"
       TORCHSERVE_INFERENCE_PORT: "${TORCHSERVE_INFERENCE_PORT:-5014}"
       TORCHSERVE_MANAGEMENT_PORT: "${TORCHSERVE_MANAGEMENT_PORT:-5015}"
@@ -291,6 +308,8 @@ services:
       text_extraction:
         condition: service_healthy
       pdfkit:
+        condition: service_healthy
+      pdf2html:
         condition: service_healthy
       libre_office:
         condition: service_healthy
