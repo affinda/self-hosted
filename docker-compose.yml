@@ -175,6 +175,7 @@ services:
       CELERY_TASK_SOFT_TIME_LIMIT: "${CELERY_TASK_SOFT_TIME_LIMIT:-60}"
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
       AUTO_REGISTER_MODELS: "1"
+      ALWAYS_CONVERT_PDF_TO_HTML: "${ALWAYS_CONVERT_PDF_TO_HTML:-0}"
     healthcheck:
       test: "curl --fail http://localhost:80/status || exit 1"
       interval: 5s
@@ -230,6 +231,7 @@ services:
       CELERY_TASK_SOFT_TIME_LIMIT: "${CELERY_TASK_SOFT_TIME_LIMIT:-60}"
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
       AUTO_REGISTER_MODELS: "1"
+      ALWAYS_CONVERT_PDF_TO_HTML: "${ALWAYS_CONVERT_PDF_TO_HTML:-0}"
     deploy:
       replicas: 1
     volumes:
