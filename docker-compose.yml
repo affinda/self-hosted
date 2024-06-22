@@ -65,7 +65,7 @@ services:
       replicas: 1 # Increase if you convert a lot pdf to html files
     environment:
       NUM_WORKERS: "1"
-      PDF2HTML_PORT: "${PDF2HTML_PORT:-5012}"
+      PDF2HTML_PORT: "${PDF2HTML_PORT:-5018}"
       SENTRY_ENABLED: "0"
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-pdf2html-selfhosted}"
 
