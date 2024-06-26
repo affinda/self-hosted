@@ -58,7 +58,7 @@ services:
 
 
   pdf2html:
-    image: affinda/pdf2html:6.31.92
+    image: affinda/pdf2html:6.33.45
     expose:
       - "${PDF2HTML_PORT:-5018}"
     deploy:

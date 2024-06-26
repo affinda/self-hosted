@@ -792,7 +792,7 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdf2html:6.31.92",
+      "image": "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdf2html:6.33.45",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,

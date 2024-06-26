@@ -58,7 +58,7 @@ services:
 
 
   pdf2html:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdf2html:6.31.92
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdf2html:6.33.45
     expose:
       - "${PDF2HTML_PORT:-5018}"
     deploy:
