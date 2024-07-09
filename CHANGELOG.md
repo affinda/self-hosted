@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.33.67] - 2024-07-09
+### Fixed
+- Issue with enableValidationTool: false
+
 ## [6.33.45] - 2024-06-22
 ### Added
 - Add pdf2html service
