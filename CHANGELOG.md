@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.33.73] - 2024-07-12
+### Added
+- PELIAS_GEOCODE_CITY_KEYS and PELIAS_GEOCODE_VERSION environment variables
+
+### Fixed
+- Improved handling of apartment numbers with global Pelias dataset
+
 ## [6.33.67] - 2024-07-09
 ### Fixed
 - Issue with enableValidationTool: false
