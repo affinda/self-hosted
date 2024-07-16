@@ -17,7 +17,7 @@ networks:
 services:
   # Local dev containers
   text_extraction:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:6.33.79
     expose:
       - "${TEXT_EXTRACTION_PORT:-5010}"
     deploy:
@@ -30,7 +30,7 @@ services:
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
 
   ocr:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/ocr:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/ocr:6.33.79
     expose:
       - "${OCR_PORT:-5011}"
     deploy:
@@ -44,7 +44,7 @@ services:
 
 
   pdfkit:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdfkit:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdfkit:6.33.79
     expose:
       - "${PDFKIT_PORT:-5012}"
     deploy:
@@ -58,7 +58,7 @@ services:
 
 
   pdf2html:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdf2html:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pdf2html:6.33.79
     expose:
       - "${PDF2HTML_PORT:-5018}"
     deploy:
@@ -70,7 +70,7 @@ services:
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-pdf2html-selfhosted}"
 
   libre_office:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/libre_office:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/libre_office:6.33.79
     hostname: libreoffice
     expose:
       - "${LIBRE_OFFICE_PORT:-5013}"
@@ -81,7 +81,7 @@ services:
 
 
   inference:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-inference-selfhosted-resumes:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-inference-selfhosted-resumes:6.33.79
     ports:
       - "${TORCHSERVE_INFERENCE_PORT:-5014}:${TORCHSERVE_INFERENCE_PORT:-5014}"
       - "${TORCHSERVE_MANAGEMENT_PORT:-5015}:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
@@ -115,7 +115,7 @@ services:
         condition: service_healthy
 
   db:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-db:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-db:6.33.79
     restart: always
     user: postgres
     environment:
@@ -133,13 +133,13 @@ services:
 
 
   redis:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-redis:6.33.79
     ports:
       - "6379:6379"
 
   # APPS Services
   web:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.33.79
     restart: always
     ports:
       - "${HOST_PORT:-80}:80"
@@ -193,7 +193,7 @@ services:
       - affinda_shared:/opt/shared/
 
   celery_worker:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.33.79
     environment:
       APPS_MODE: "CELERY_WORKER"
       CELERY_POOL_TYPE: "prefork"
@@ -259,7 +259,7 @@ services:
         condition: service_healthy
 
   celery_beat:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.33.73
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-selfhosted:6.33.79
     environment:
       APPS_MODE: "CELERY_BEAT"
       CELERY_POOL_TYPE: "prefork"

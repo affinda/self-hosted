@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.33.79] - 2024-07-16
+### Added
+- Updates for v4 resume parser
+
 ## [6.33.73] - 2024-07-12
 ### Added
 - PELIAS_GEOCODE_CITY_KEYS and PELIAS_GEOCODE_VERSION environment variables
