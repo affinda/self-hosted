@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.33.86] - 2024-07-23
+### Fixed
+- Improved unpacking on first boot for clustered deployments
+
 ## [6.33.79] - 2024-07-16
 ### Added
 - Updates for v4 resume parser
