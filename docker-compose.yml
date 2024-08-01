@@ -93,7 +93,6 @@ services:
       TS_MANAGEMENT_ADDRESS: "http://0.0.0.0:${TORCHSERVE_MANAGEMENT_PORT:-5015}"
       TS_MODEL_CONFIG: >- 
         {
-        "headshot":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}},
         "resume-v4_en":{"1.0":{"defaultVersion":true,"minWorkers":3,"maxWorkers":3}},
         "resume-v4_multi":{"1.0":{"defaultVersion":true,"minWorkers":1,"maxWorkers":1}}
         }
