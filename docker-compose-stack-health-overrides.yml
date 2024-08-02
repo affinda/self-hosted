@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  # WARNING: This service mounts the docker socket. This is required to test if all containers on the host are healthy.
+  # Although the web service should be secure, additional mitigations should be put in place:
+  #   - Restrict remote access to port 5100 to trusted sources
+  #   - Restrict STACK_HEALTH_HOST to trusted hosts
+  stack_health:
+    image: "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/stack-health:latest"
+    restart: always
+    ports: [ "5100:5100" ]
+    environment:
+      STACK_HEALTH_HOST: "0.0.0.0"
+    userns_mode: host
+    # set this to the appropriate user/group
+    user: 999:999
+    volumes:
+      - type: bind
+        source: ${DOCKER_HOST:-/var/run/docker.sock}
+        target: /var/run/docker.sock
+    depends_on:
+      web:
+        condition: service_healthy
+      celery_worker:
+        condition: service_healthy
+      celery_beat:
+        condition: service_healthy
+      inference:
+        condition: service_healthy
