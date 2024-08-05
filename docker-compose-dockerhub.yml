@@ -28,6 +28,8 @@ services:
       SENTRY_ENABLED: "0"
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-text_extraction-selfhosted}"
       TEXT_EXTRACTION_PORT: "${TEXT_EXTRACTION_PORT:-5010}"
+    restart: always
+
 
   ocr:
     image: affinda/ocr:6.33.86
@@ -55,6 +57,7 @@ services:
       SENTRY_DSN_TYPE: "${SENTRY_DSN_TYPE:-DEV}"
       SENTRY_ENABLED: "0"
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-pdfkit-selfhosted}"
+    restart: always
 
 
   pdf2html:
@@ -68,6 +71,8 @@ services:
       PDF2HTML_PORT: "${PDF2HTML_PORT:-5018}"
       SENTRY_ENABLED: "0"
       SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-pdf2html-selfhosted}"
+    restart: always
+
 
   libre_office:
     image: affinda/libre_office:6.33.86
@@ -78,7 +83,11 @@ services:
       replicas: 2 # Increase this if you convert a lot of docx files
     environment:
       LIBRE_OFFICE_PORT: "${LIBRE_OFFICE_PORT:-5013}"
-
+    restart: always
+    ulimits:
+      core: # Disable core dumps
+        hard: 0
+        soft: 0
 
   inference:
     image: affinda/affinda-inference-selfhosted-resumes:6.33.86
@@ -100,7 +109,6 @@ services:
     healthcheck:
       # Will still use other defaults from inference.Dockerfile
       start_period: 600s # 20 minutes, because we have to load all the models above
-
     deploy:
       # Remove the below to run on CPU only
       resources:
@@ -112,6 +120,8 @@ services:
     depends_on:
       web:
         condition: service_healthy
+    restart: always
+
 
   db:
     image: affinda/affinda-db:6.33.86
@@ -135,6 +145,7 @@ services:
     image: affinda/affinda-redis:6.33.86
     ports:
       - "6379:6379"
+    restart: always
 
   # APPS Services
   web:
@@ -259,6 +270,7 @@ services:
 
   celery_beat:
     image: affinda/affinda-selfhosted:6.33.86
+    restart: always
     environment:
       APPS_MODE: "CELERY_BEAT"
       CELERY_POOL_TYPE: "prefork"
@@ -321,6 +333,7 @@ services:
 
   opensearch:
     image: opensearchproject/opensearch:2.8.0
+    restart: always
     environment:
       discovery.type: "single-node"
       OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m" # minimum and maximum Java heap size, should be half of mem_limit

@@ -825,6 +825,13 @@ resource aws_ecs_task_definition affinda {
         "retries": 10,
         "startPeriod": 5
     }
+    "ulimits": [
+      {
+          "name": "core",
+          "softLimit": 0,
+          "hardLimit": 0
+      }
+  ]
 },
 {
     "name": "redis",

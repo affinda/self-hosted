@@ -85,7 +85,10 @@ services:
     environment:
       LIBRE_OFFICE_PORT: "${LIBRE_OFFICE_PORT:-5013}"
     restart: always
-
+    ulimits:
+      core: # Disable core dumps
+        hard: 0
+        soft: 0
 
   inference:
     image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/affinda-inference-selfhosted-resumes:6.33.86
