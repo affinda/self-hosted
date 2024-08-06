@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.33.128] - 2024-08-07
+### Added
+- Health check for celery container
+
 ## [6.33.86] - 2024-07-23
 ### Fixed
 - Improved unpacking on first boot for clustered deployments
