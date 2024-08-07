@@ -11,7 +11,8 @@ services:
     environment:
       STACK_HEALTH_HOST: "0.0.0.0"
     userns_mode: host
-    # set this to the appropriate user/group
+    # set this to an appropriate user/group to give it access to the docker socket.
+    # you can get the uid:gid of the socket using `stat -c '%u:%g' /var/run/docker.sock`
     user: 999:999
     volumes:
       - type: bind
@@ -21,8 +22,6 @@ services:
       web:
         condition: service_healthy
       celery_worker:
-        condition: service_healthy
-      celery_beat:
         condition: service_healthy
       inference:
         condition: service_healthy
