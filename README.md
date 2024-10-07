@@ -257,6 +257,7 @@ You can refer to the relevant configuration for your deployment method for an ex
 
 ### How do I use the Resumes NextGen parser?
 
+- Ensure `ENABLED_EXTRACTORS` in the `web`, `celery_worker` and `celery_beat` containers includes `resume-v4`
 - Navigate to the app at /app
 - Create a new Workspace:
 

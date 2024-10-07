@@ -186,6 +186,7 @@ services:
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
       AUTO_REGISTER_MODELS: "1"
       ALWAYS_CONVERT_PDF_TO_HTML: "${ALWAYS_CONVERT_PDF_TO_HTML:-0}"
+      ENABLED_EXTRACTORS: "${ENABLED_EXTRACTORS:-resume,resume-v4}"
       # Comma-seperated list of mapping data source names to skip during initial import
       # MDS_TO_SKIP_IMPORT: "ESCO Occupations,ESCO Skills"
     healthcheck:
@@ -245,6 +246,7 @@ services:
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
       AUTO_REGISTER_MODELS: "1"
       ALWAYS_CONVERT_PDF_TO_HTML: "${ALWAYS_CONVERT_PDF_TO_HTML:-0}"
+      ENABLED_EXTRACTORS: "${ENABLED_EXTRACTORS:-resume,resume-v4}"
     healthcheck:
       test: "curl --fail http://localhost:5099/readyz || exit 1"
       interval: 2.5s
@@ -314,6 +316,7 @@ services:
       REDIS_PORT: "6379"
       USE_ELASTICSEARCH: "1"
       ELASTICSEARCH_HOST: "opensearch"
+      ENABLED_EXTRACTORS: "${ENABLED_EXTRACTORS:-resume,resume-v4}"
     deploy:
       replicas: 1
     volumes:
