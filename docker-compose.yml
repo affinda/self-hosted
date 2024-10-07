@@ -187,6 +187,8 @@ services:
       CELERY_TASK_TIME_LIMIT: "${CELERY_TASK_TIME_LIMIT:-90}"
       AUTO_REGISTER_MODELS: "1"
       ALWAYS_CONVERT_PDF_TO_HTML: "${ALWAYS_CONVERT_PDF_TO_HTML:-0}"
+      # Comma-seperated list of mapping data source names to skip during initial import
+      # MDS_TO_SKIP_IMPORT: "ESCO Occupations,ESCO Skills"
     healthcheck:
       test: "curl --fail http://localhost:80/status || exit 1"
       interval: 5s
