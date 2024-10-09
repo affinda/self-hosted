@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.33.264] - 2024-10-09
+### Added
+- add optional MDS_TO_SKIP_IMPORT env var for skipping mapping data sources on import
+- add ENABLED_EXTRACTORS to control which extractors are enabled in web/celery workers
+
 ## [6.33.128] - 2024-08-07
 ### Added
 - Health check for celery container
