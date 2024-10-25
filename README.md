@@ -16,6 +16,54 @@ You will need access to the relevant Affinda repositories to run this code. Plea
 
 Release notes for significant version changes can be [found in this repository here](./RELEASES.md)
 
+## Requirements
+
+This remainder of this guide assumes that you have set up appropriate supporting infrastructure for your chosen deployment configuration. See [installation](#installation) for supported deployment configurations.
+
+The minimum infrastructure requirements are as follows:
+
+### Compute
+
+The recommended EC2 node type is `g4dn.2xlarge`. For other platforms, the recommended compute specifications for a single node are as follows:
+
+* 8 vCPU (Intel only)
+* 32 GB RAM
+* 16 GB GPU RAM (Nvidia only)
+* Linux
+
+The minimum compute specifications for a single node are as follows:
+
+* 4 vCPU (8 without a GPU; Intel only)
+* 32 GB RAM
+* Linux
+
+A GPU is not strictly required, but is strongly recommended.
+Parse times without a GPU will be significantly slower and throughput correspondingly reduced.
+
+Operating systems other than Linux, non-Intel CPUs and non-Nvidia GPUs are not supported.
+
+If you choose to enable geocoding (Pelias), then an additional 8-16 GB of RAM may be required depending on your load.
+
+### Networking
+
+The following network paths are required for the service to operate:
+
+* outbound access from the underlying compute nodes to your chosen Docker image repository
+* inbound access on port 80 to the `web` container
+* internal communication between containers in the stack, whether by ECS links, a Docker bridge network or equivalent.
+
+The following network restrictions (by security groups, or equivalent mechanisms) are recommended:
+
+* inbound access to containers other than `web` should be banned
+* inbound access to the `web` container should be restricted to trusted sources
+
+### Storage
+
+At a minimum, you should provision enough storage to hold the container images.
+150GB of storage should be very comfortable.
+
+If you store parsed documents long-term in Affinda (e.g. you don't use `deleteAfterParse` or similar), then you'll need to use S3, or monitor your storage use to ensure that you scale up as and when required.
+
 ## Installation
 
 There are three supported approaches to configuring the service:
@@ -284,3 +332,7 @@ You can refer to the relevant configuration for your deployment method for an ex
 ### How do I enable the conversion of pdfs to HTML?
 
 Set `ALWAYS_CONVERT_PDF_TO_HTML=1` in the web and celery_worker containers.
+
+### Do you support Terraform/CloudFormation/(insert IaC platform here)
+
+You can find `terraform` configurations for deploying the stack on ECS in the `terraform/` directory. These will likely require some adaptation to plug into your existing Terraform stack.
