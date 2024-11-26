@@ -24,7 +24,8 @@ resource aws_ecs_task_definition affinda {
       "pdfkit:pdfkit",
       "redis:redis",
       "text_extraction:text_extraction",
-      "inference:inference"
+      "inference:inference",
+      "opensearch:opensearch"
     ],
     "portMappings": [],
     "essential": true,
@@ -243,7 +244,8 @@ resource aws_ecs_task_definition affinda {
         "pdfkit:pdfkit",
         "redis:redis",
         "text_extraction:text_extraction",
-        "inference:inference"
+        "inference:inference",
+        "opensearch:opensearch"
     ],
     "portMappings": [],
     "essential": true,
@@ -419,7 +421,8 @@ resource aws_ecs_task_definition affinda {
         "pdfkit:pdfkit",
         "redis:redis",
         "text_extraction:text_extraction",
-        "inference:inference"
+        "inference:inference",
+        "opensearch:opensearch"
     ],
     "portMappings": [
         {
