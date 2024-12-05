@@ -173,6 +173,13 @@ many instances who may require auto-scaling of capacity based on demand, we reco
 1. Create a task definition using this JSON either with ecs-cli, or through a browser.
 1. Create a new service on your cluster using this definition. You may want to route traffic through a load balancer.
 
+### Legacy Parser
+
+The default installation mode now only installs the models and data required for the NextGen Resume Parser (`resume-v4`).
+To install the Legacy Parser (`resume`), include `resume` in the `ENABLED_EXTRACTORS` environment variable on the `web` and `celery-worker` containers.
+
+For example, `ENABLED_EXTRACTORS: resume,resume-v4` will install the models and data for both the `resume` and `resume-v4` extractors.
+
 ## Usage
 
 *Note - where `localhost` is used below, substitute the host IP/name of your service.*
@@ -239,7 +246,7 @@ recruitment_workspace = client.create_workspace(body=workspace_body)
 # Finally, create a collection that will contain our uploaded documents, for example resumes, by selecting the
 # appropriate extractor
 collection_body = CollectionCreate(
-    name="Resumes", workspace=recruitment_workspace.identifier, extractor="resume"
+    name="Resumes", workspace=recruitment_workspace.identifier, extractor="resume-v4"
 )
 resume_collection = client.create_collection(collection_body)
 
