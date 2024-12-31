@@ -180,6 +180,13 @@ To install the Legacy Parser (`resume`), include `resume` in the `ENABLED_EXTRAC
 
 For example, `ENABLED_EXTRACTORS: resume,resume-v4` will install the models and data for both the `resume` and `resume-v4` extractors.
 
+### Job Description Parser
+
+The default installation mode does not include Job Description Parser by default. 
+It has to be explicitly enabled by adding `job-description` to the `ENABLED_EXTRACTORS` variable.
+
+For example, `ENABLED_EXTRACTORS: resume-v4,job-description` will install the models and data for `resume-v4` and `job-description` extractors.
+
 ## Usage
 
 *Note - where `localhost` is used below, substitute the host IP/name of your service.*
@@ -335,6 +342,10 @@ You can refer to the relevant configuration for your deployment method for an ex
   of [this page](https://docs.affinda.com/docs/uploading-documents-via-the-api#request-body)
 - To speed up importing, you can set the MDS_TO_SKIP_IMPORT env var on the `web` container to skip importing of mapping
   data sources that aren't required for your use case, e.g. MDS_TO_SKIP_IMPORT: "ESCO Occupations,ESCO Skills"
+
+### How do I use the Job Description parser?
+
+Ensure `ENABLED_EXTRACTORS` in the `web`, `celery_worker` and `celery_beat` containers includes `job-description`
 
 ### How do I enable the conversion of pdfs to HTML?
 
