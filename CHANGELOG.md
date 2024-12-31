@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.33.445] - 2024-12-31
+### Added
+- Add Job Description extractor
+
 ## [6.33.264] - 2024-10-09
 ### Added
 - add optional MDS_TO_SKIP_IMPORT env var for skipping mapping data sources on import
