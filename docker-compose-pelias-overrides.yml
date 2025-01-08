@@ -4,11 +4,15 @@ services:
     environment:
       ENABLE_GEOCODING: "1"
       GEOCODING_SERVICE_OVERRIDE: "PELIAS"
+      PELIAS_API_HOST: "pelias_api"
+      PELIAS_API_PORT: "4000"
 
   celery_worker:
     environment:
       ENABLE_GEOCODING: "1"
       GEOCODING_SERVICE_OVERRIDE: "PELIAS"
+      PELIAS_API_HOST: "pelias_api"
+      PELIAS_API_PORT: "4000"
 
   pelias_elasticsearch:
     image: "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/pelias_elasticsearch:latest"
