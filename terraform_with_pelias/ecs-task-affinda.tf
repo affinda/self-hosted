@@ -154,6 +154,10 @@ resource aws_ecs_task_definition affinda {
             "value": "1"
         },
         {
+            "name": "GEOCODING_SERVICE_OVERRIDE",
+            "value": "PELIAS"
+        },
+        {
             "name": "PELIAS_API_HOST",
             "value": "${var.Environment}-affinda-pelias.${var.Environment}.discovery.yourcompanyname.com"
         },
@@ -549,6 +553,10 @@ resource aws_ecs_task_definition affinda {
         {
             "name": "ENABLE_GEOCODING",
             "value": "1"
+        },
+        {
+            "name": "GEOCODING_SERVICE_OVERRIDE",
+            "value": "PELIAS"
         },
         {
             "name": "PELIAS_API_HOST",
