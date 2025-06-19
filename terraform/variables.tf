@@ -69,7 +69,7 @@ variable ocr_image {
 }
 
 variable text_extraction_image {
-  default = "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:6.33.445"
+  default = "335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:7.54.1"
 }
 
 variable pdfkit_image {

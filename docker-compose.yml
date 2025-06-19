@@ -17,7 +17,7 @@ networks:
 services:
   # Local dev containers
   text_extraction:
-    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:6.33.445
+    image: 335594571162.dkr.ecr.ap-southeast-2.amazonaws.com/text_extraction:7.54.1
     expose:
       - "${TEXT_EXTRACTION_PORT:-5010}"
     deploy:

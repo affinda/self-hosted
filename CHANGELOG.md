@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.54.1] - 2025-06-20
+
+*Note: this release contains the `text_extraction` container ONLY.
+This release is fully compatible with v6.33.445.*
+
+### Fixed
+- Memory leak in `text_extraction` container
+
 ## [6.33.445] - 2024-12-31
 ### Added
 - Add Job Description extractor
